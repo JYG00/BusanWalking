@@ -1,14 +1,18 @@
-import React, { Component, MouseEvent } from "react";
+import React, { Component, FormEvent, MouseEvent } from "react";
 import styles from "./header.module.css";
 import { BiSearch, BiMenu } from "react-icons/bi";
 import { IoIosArrowDown } from "react-icons/io";
+import { ImCross } from "react-icons/im";
+import { BiLogIn, BiLogOut, BiUserPlus } from "react-icons/bi";
 
+// Header props, state
 interface HeaderProps {}
 interface HeaderState {
   isDisplay: boolean;
   width: number;
   keyWord: string;
 }
+// Header > MenuContent props, state
 interface MenuContentProps {
   title: string;
   content: string[];
@@ -41,6 +45,8 @@ class Header extends Component<HeaderProps, HeaderState> {
   render() {
     const navHoverRef = React.createRef<HTMLDivElement>();
     const menuRef = React.createRef<HTMLDivElement>();
+    const headRef = React.createRef<HTMLDivElement>();
+    const searchRef = React.createRef<HTMLDivElement>();
 
     // 퀵메뉴 아이콘 클릭 시
     const onClick = () => {
@@ -49,16 +55,60 @@ class Header extends Component<HeaderProps, HeaderState> {
 
     // 마우스를 올리면 NavHover 메뉴 표시
     const showNavHover = (event: MouseEvent<HTMLDivElement>) => {
-      navHoverRef.current!.style.display = "flex";
-      this.setState({ ...this.state, keyWord: event.currentTarget.id });
+      if (navHoverRef.current !== null && headRef.current !== null) {
+        navHoverRef.current.style.display = "flex";
+        headRef.current.style.boxShadow = "rgba(0, 0, 0, 0.8) 0 0 0 9999px";
+        headRef.current.style.zIndex = "100";
+        this.setState({ ...this.state, keyWord: event.currentTarget.id });
+      }
     };
 
+    // 영역 밖으로 나가면 NavHover 숨김
     const hideNavHover = (event: MouseEvent<HTMLDivElement>) => {
-      navHoverRef.current!.style.display = "none";
+      if (navHoverRef.current !== null && headRef.current !== null) {
+        navHoverRef.current.style.display = "none";
+        headRef.current.style.boxShadow = "none";
+        headRef.current.style.zIndex = "0";
+        this.setState({ ...this.state, keyWord: event.currentTarget.id });
+      }
     };
 
     return (
-      <div className={styles.head}>
+      <div className={styles.head} ref={headRef}>
+        {/* 검색 */}
+        <div className={styles.head_search} ref={searchRef}>
+          <div>
+            <div>
+              <form
+                onSubmit={(event: FormEvent) => {
+                  event.preventDefault();
+                  console.log("hello");
+                }}
+              >
+                <input
+                  type="text"
+                  placeholder="검색할 내용을 입력해주세요. (예:부산 서구"
+                />
+                <button type="submit">
+                  <BiSearch />
+                </button>
+              </form>
+            </div>
+            {/* 닫기 아이콘 */}
+            <div
+              onClick={() => {
+                if (searchRef.current !== null) {
+                  searchRef.current.style.boxShadow = "none";
+                  searchRef.current.style.zIndex = "-1";
+                }
+              }}
+            >
+              <button className={styles.search_icon}>
+                <ImCross />
+              </button>
+            </div>
+          </div>
+        </div>
         {/* 헤더상단 */}
         <div className={styles.head_in_top} onMouseEnter={hideNavHover}>
           {/* 헤더 상단 콘텐츠 */}
@@ -104,7 +154,17 @@ class Header extends Component<HeaderProps, HeaderState> {
                 <p>문의</p>
               </div>
               {/* 검색 */}
-              <div style={{ cursor: "pointer" }} onMouseEnter={hideNavHover}>
+              <div
+                style={{ cursor: "pointer" }}
+                onMouseEnter={hideNavHover}
+                onClick={() => {
+                  if (searchRef.current !== null) {
+                    searchRef.current.style.boxShadow =
+                      "rgba(0, 0, 0, 0.8) 0 0 0 9999px";
+                    searchRef.current.style.zIndex = "100";
+                  }
+                }}
+              >
                 <p>
                   검색
                   <BiSearch style={{ marginLeft: "3px" }} />
@@ -129,7 +189,7 @@ class Header extends Component<HeaderProps, HeaderState> {
                     case "관광지": {
                       return (
                         <div className={styles.head_hover_container}>
-                          <div>
+                          <div className={styles.head_hover_on}>
                             <div></div>
                             <p>전체관광지</p>
                           </div>
@@ -155,7 +215,7 @@ class Header extends Component<HeaderProps, HeaderState> {
                             <div></div>
                             <p>명소공유</p>
                           </div>
-                          <div>
+                          <div className={styles.head_hover_on}>
                             <div></div>
                             <p>Q&A</p>
                           </div>
@@ -173,6 +233,10 @@ class Header extends Component<HeaderProps, HeaderState> {
                             <div></div>
                             <p>관광불편신고</p>
                           </div>
+                          <div className={styles.head_hover_on}>
+                            <div style={{ opacity: 0 }}></div>
+                            <p style={{ opacity: 0 }}>..</p>
+                          </div>
                         </div>
                       );
                     }
@@ -188,29 +252,49 @@ class Header extends Component<HeaderProps, HeaderState> {
         {/* 메뉴 아이콘 클릭 시 */}
         {/* 메뉴 설정 (850px 이하)*/}
         {this.state.width < 1015 && this.state.isDisplay && (
-          <div
-            className={styles.head_menu_content}
-            ref={menuRef}
-            style={{ zIndex: 200 }}
-          >
-            {/* 관광지 */}
-            <MenuContent
-              width={this.state.width}
-              title="관광지"
-              content={["전체관광지", "숲길", "해안길", "도심길"]}
-            />
-            {/* 참여마당 */}
-            <MenuContent
-              width={this.state.width}
-              title="참여마당"
-              content={["명소공유", "Q&A"]}
-            />
-            {/* 문의 */}
-            <MenuContent
-              width={this.state.width}
-              title="문의"
-              content={["이용문의", "관광불편신고"]}
-            />
+          <div>
+            <div className={styles.head_menu_content} ref={menuRef}>
+              <div className={styles.icon_bar}>
+                {/* 닫기 아이콘 */}
+                <div onClick={onClick}>
+                  <ImCross />
+                  <p>메뉴 닫기</p>
+                </div>
+                {/* 로그인 아이콘 */}
+                <div>
+                  <BiLogIn />
+                  <p>로그인</p>
+                </div>
+                {/* 로그아웃 아이콘 */}
+                <div>
+                  <BiLogOut />
+                  <p>로그아웃</p>
+                </div>
+                {/* 회원가입 아이콘 */}
+                <div>
+                  <BiUserPlus />
+                  <p>회원가입</p>
+                </div>
+              </div>
+              {/* 관광지 */}
+              <MenuContent
+                width={this.state.width}
+                title="관광지"
+                content={["전체관광지", "숲길", "해안길", "도심길"]}
+              />
+              {/* 참여마당 */}
+              <MenuContent
+                width={this.state.width}
+                title="참여마당"
+                content={["명소공유", "Q&A"]}
+              />
+              {/* 문의 */}
+              <MenuContent
+                width={this.state.width}
+                title="문의"
+                content={["이용문의", "관광불편신고"]}
+              />
+            </div>
           </div>
         )}
       </div>

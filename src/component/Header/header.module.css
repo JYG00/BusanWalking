@@ -4,7 +4,75 @@
   width: 100%;
   height: auto;
   background-color: greenyellow;
+  z-index: 1;
 }
+/* 헤더 검색 영역 */
+.head_search {
+  position: absolute;
+  width: 100%;
+  height: 140px;
+  background-color: brown;
+  z-index: -1;
+}
+.head_search > div {
+  height: 140px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 검색 폼 스타일 */
+.head_search > div > div:first-child {
+  width: 600px;
+  height: 54px;
+  /* background-color: #f3f3f3; */
+}
+.head_search input {
+  padding-left: 5px;
+  width: 500px;
+  height: 54px;
+  font-size: 28px;
+  border: 0;
+  box-shadow: 0 30px 60px -12px rgba(50, 50, 93, 0.25);
+}
+.head_search input::placeholder {
+  font-size: 20px;
+}
+.head_search button {
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  font-size: 30px;
+  margin-left: 20px;
+  border-radius: 30px;
+  border: 1px solid #777;
+}
+.head_search button:hover {
+  border: 2px solid #000;
+}
+/* 검색 아이콘 스타일 */
+.head_search > div > div:last-child {
+  position: absolute;
+  right: 0;
+  margin-right: 20px;
+  font-size: 30px;
+  cursor: pointer;
+}
+.search_icon {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  height: 60px;
+  background-color: #f3f3f3;
+  border-radius: 30px;
+}
+
+.head_search > div > div:last-child:hover > button {
+  border: 2px solid #000;
+}
+
 /* 헤더상단 */
 .head_in_top {
   display: flex;
@@ -43,14 +111,40 @@
 .head_menu_content {
   display: none;
   position: absolute;
-  width: auto;
-  height: 550px;
-  top: 140px;
+  width: 80%;
+  top: 0;
+  height: 100%;
+  transition: width;
   background-color: greenyellow;
+}
+.icon_bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: purple;
+  font-size: 25px;
+  display: flex;
+  justify-content: space-evenly;
+  text-align: center;
+  align-items: center;
+  cursor: pointer;
+  width: 100%;
+  height: 70px;
+}
+.icon_bar div:hover > a {
+  color: #fff;
+}
+.icon_bar p {
+  font-size: 15px;
+}
+.head_menu_content > div:first-child {
+  margin: 0;
+}
+.head_menu_content > div:nth-child(2) {
+  margin-top: 80px;
 }
 .head_menu_content > div {
   margin: 12px 12px;
-  display: flex;
 }
 .head_menu_title {
   width: 150px;
@@ -61,8 +155,12 @@
   display: flex;
   justify-content: space-between;
 }
+
 .head_menu_sub {
   display: none;
+  width: 100%;
+  justify-content: flex-start;
+  background-color: aqua;
 }
 .head_menu_sub > div {
   margin-bottom: 3px;
@@ -74,9 +172,9 @@
   background-color: #f3f3f3;
 }
 .head_menu_sub > div > div {
-  width: 100px;
-  height: 100px;
-  border-radius: 25px;
+  width: 80px;
+  height: 80px;
+  border-radius: 24px;
   border: 1px solid #000;
 }
 /* 헤더 */
@@ -122,10 +220,7 @@
   align-items: center;
   font-size: 25px;
 }
-.head_content_in > div:hover > p {
-  padding-top: 1px;
-  border-bottom: 1px solid #000;
-}
+
 .head_content_in > div:last-child:hover > p {
   border-bottom: 0px;
 }
@@ -167,6 +262,10 @@
   display: flex;
   align-items: center;
   font-size: 18px;
+}
+/* hover된 영역에 스타일 적용 */
+.head_hover_on {
+  border-top: 1px solid #000;
 }
 .head_content_in_hover > div {
   /* margin: 0 80px; */
@@ -270,7 +369,7 @@
           align-items: center; */
   }
   .head_content_in > div:last-child {
-    display: block;
+    display: flex;
   }
 
   /* /////////// */
