@@ -1,4 +1,4 @@
-import React, { Component, FormEvent, MouseEvent } from "react";
+import React, { Component, FormEvent, MouseEvent, ReactNode } from "react";
 import styles from "./header.module.css";
 import { BiSearch, BiMenu } from "react-icons/bi";
 import { IoIosArrowDown } from "react-icons/io";
@@ -42,7 +42,7 @@ class Header extends Component<HeaderProps, HeaderState> {
     return () => window.removeEventListener("resize", this.updateDimensions);
   }
 
-  render() {
+  render(): ReactNode {
     const navHoverRef = React.createRef<HTMLDivElement>();
     const menuRef = React.createRef<HTMLDivElement>();
     const headRef = React.createRef<HTMLDivElement>();
@@ -98,6 +98,7 @@ class Header extends Component<HeaderProps, HeaderState> {
             <div
               onClick={() => {
                 if (searchRef.current !== null) {
+                  searchRef.current.style.display = "none";
                   searchRef.current.style.boxShadow = "none";
                   searchRef.current.style.zIndex = "-1";
                 }
@@ -159,6 +160,7 @@ class Header extends Component<HeaderProps, HeaderState> {
                 onMouseEnter={hideNavHover}
                 onClick={() => {
                   if (searchRef.current !== null) {
+                    searchRef.current.style.display = "block";
                     searchRef.current.style.boxShadow =
                       "rgba(0, 0, 0, 0.8) 0 0 0 9999px";
                     searchRef.current.style.zIndex = "100";
@@ -338,7 +340,7 @@ class MenuContent extends Component<MenuContentProps, MenuContentState> {
           >
             <h2>
               {this.props.title}
-              <IoIosArrowDown style={{ marginLeft: "3px" }} />
+              <IoIosArrowDown style={{ position: "relative", top: "5px" }} />
             </h2>
           </div>
           {/* 메뉴 상세 내용 */}
