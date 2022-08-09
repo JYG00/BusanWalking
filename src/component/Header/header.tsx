@@ -11,12 +11,12 @@ interface HeaderState {
   isDisplay: boolean;
   width: number;
   keyWord: string;
+  isLogin: boolean;
 }
 // Header > MenuContent props, state
 interface MenuContentProps {
   title: string;
   content: string[];
-  width: number;
 }
 interface MenuContentState {
   isDisplay: boolean;
@@ -26,6 +26,7 @@ interface MenuContentState {
 class Header extends Component<HeaderProps, HeaderState> {
   state: HeaderState = {
     isDisplay: false,
+    isLogin: false,
     width: window.innerWidth,
     keyWord: "",
   };
@@ -114,16 +115,24 @@ class Header extends Component<HeaderProps, HeaderState> {
         <div className={styles.head_in_top} onMouseEnter={hideNavHover}>
           {/* 헤더 상단 콘텐츠 */}
           <div className={styles.head_content_top}>
-            <div className={styles.head_content_in_top}>
-              {/* 로그인 */}
-              <div>
-                <p>로그인</p>
+            {this.state.isLogin ? (
+              <div className={styles.head_content_in_top_loginOut}>
+                <div>
+                  <p>로그아웃</p>
+                </div>
               </div>
-              {/* 회원가입 */}
-              <div>
-                <p>회원가입</p>
+            ) : (
+              <div className={styles.head_content_in_top_login}>
+                {/* 로그인 */}
+                <div>
+                  <p>로그인</p>
+                </div>
+                {/* 회원가입 */}
+                <div>
+                  <p>회원가입</p>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
         <div className={styles.head_in}>
@@ -256,46 +265,53 @@ class Header extends Component<HeaderProps, HeaderState> {
         {this.state.width < 1015 && this.state.isDisplay && (
           <div>
             <div className={styles.head_menu_content} ref={menuRef}>
-              <div className={styles.icon_bar}>
-                {/* 닫기 아이콘 */}
-                <div onClick={onClick}>
-                  <ImCross />
-                  <p>메뉴 닫기</p>
+              {this.state.isLogin ? (
+                <div className={styles.icon_bar}>
+                  {/* 닫기 아이콘 */}
+                  <div onClick={onClick}>
+                    <ImCross />
+                    <p>메뉴 닫기</p>
+                  </div>
+                  {/* 로그아웃 아이콘 */}
+                  <div>
+                    <BiLogOut />
+                    <p>로그아웃</p>
+                  </div>
                 </div>
-                {/* 로그인 아이콘 */}
-                <div>
-                  <BiLogIn />
-                  <p>로그인</p>
+              ) : (
+                <div className={styles.icon_bar}>
+                  {/* 닫기 아이콘 */}
+                  <div onClick={onClick}>
+                    <ImCross />
+                    <p>메뉴 닫기</p>
+                  </div>
+                  {/* 로그인 아이콘 */}
+                  <div>
+                    <BiLogIn />
+                    <p>로그인</p>
+                  </div>
+                  {/* 회원가입 아이콘 */}
+                  <div>
+                    <BiUserPlus />
+                    <p>회원가입</p>
+                  </div>
                 </div>
-                {/* 로그아웃 아이콘 */}
-                <div>
-                  <BiLogOut />
-                  <p>로그아웃</p>
-                </div>
-                {/* 회원가입 아이콘 */}
-                <div>
-                  <BiUserPlus />
-                  <p>회원가입</p>
-                </div>
+              )}
+
+              <div>
+                {/* 관광지 */}
+                <MenuContent
+                  title="관광지"
+                  content={["전체관광지", "숲길", "해안길", "도심길"]}
+                />
+                {/* 참여마당 */}
+                <MenuContent title="참여마당" content={["명소공유", "Q&A"]} />
+                {/* 문의 */}
+                <MenuContent
+                  title="문의"
+                  content={["이용문의", "관광불편신고"]}
+                />
               </div>
-              {/* 관광지 */}
-              <MenuContent
-                width={this.state.width}
-                title="관광지"
-                content={["전체관광지", "숲길", "해안길", "도심길"]}
-              />
-              {/* 참여마당 */}
-              <MenuContent
-                width={this.state.width}
-                title="참여마당"
-                content={["명소공유", "Q&A"]}
-              />
-              {/* 문의 */}
-              <MenuContent
-                width={this.state.width}
-                title="문의"
-                content={["이용문의", "관광불편신고"]}
-              />
             </div>
           </div>
         )}
@@ -330,7 +346,7 @@ class MenuContent extends Component<MenuContentProps, MenuContentState> {
             onClick={() => {
               if (contentRef.current !== null) {
                 if (this.state.isDisplay) {
-                  contentRef.current!.style.display = "flex";
+                  contentRef.current!.style.display = "block";
                 } else {
                   contentRef.current!.style.display = "none";
                 }
@@ -338,10 +354,10 @@ class MenuContent extends Component<MenuContentProps, MenuContentState> {
               }
             }}
           >
-            <h2>
-              {this.props.title}
+            <h2>{this.props.title}</h2>
+            <i>
               <IoIosArrowDown style={{ position: "relative", top: "5px" }} />
-            </h2>
+            </i>
           </div>
           {/* 메뉴 상세 내용 */}
           <div className={styles.head_menu_sub} ref={contentRef}>
