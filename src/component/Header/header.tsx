@@ -113,6 +113,10 @@ class Header extends Component<HeaderProps, HeaderState> {
         </div>
         {/* 헤더상단 */}
         <div className={styles.head_in_top} onMouseEnter={hideNavHover}>
+          {/* 메뉴 아이콘 1015px 이하만 적용 */}
+          <div className={styles.head_menu} onClick={onClick}>
+            <BiMenu />
+          </div>
           {/* 헤더 상단 콘텐츠 */}
           <div className={styles.head_content_top}>
             {this.state.isLogin ? (
@@ -136,10 +140,6 @@ class Header extends Component<HeaderProps, HeaderState> {
           </div>
         </div>
         <div className={styles.head_in}>
-          {/* 메뉴 아이콘 850px 이하만 적용 */}
-          <div className={styles.head_menu} onClick={onClick}>
-            <BiMenu />
-          </div>
           {/* 로고 */}
           <div
             className={styles.head_logo}
