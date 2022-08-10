@@ -1,0 +1,124 @@
+.container {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 3300px;
+  z-index: 0;
+  background-color: rgb(253, 221, 253);
+}
+
+.main_top {
+  display: flex;
+  width: 100%;
+  height: 1100px;
+  background-color: rgb(253, 213, 184);
+}
+.main_mid {
+  display: flex;
+  width: 100%;
+  height: 1100px;
+  background-color: rgb(250, 177, 125);
+}
+.main_bottom {
+  display: flex;
+  width: 100%;
+  height: 1100px;
+  background-color: rgb(255, 158, 88);
+}
+/* ////////////////////// */
+/* 슬라이드 */
+/* ////////////////////// */
+
+/* 슬라이드 컨트롤러 */
+.slide_controller_plus {
+  position: absolute;
+  z-index: 10;
+  top: 450px;
+  right: 50px;
+  width: 70px;
+  height: 70px;
+  border-radius: 35px;
+  border: 2px solid #000;
+  cursor: pointer;
+  font-size: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+.slide_controller_minus {
+  position: absolute;
+  z-index: 10;
+  top: 450px;
+  left: 50px;
+  width: 70px;
+  height: 70px;
+  border-radius: 35px;
+  border: 2px solid #000;
+  cursor: pointer;
+  font-size: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+/* 슬라이드 */
+.slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.slide > div {
+  width: 100%;
+  height: 600px;
+  background-color: #f3f3f3;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+/* 슬라이드 왼쪽파트 */
+.slide_left {
+  width: 50%;
+  background-color: gray;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: left;
+}
+.slide_tour_place {
+  font-size: 40px;
+}
+.slide_tour_title {
+  font-size: 30px;
+}
+.slide_tour_desc {
+  font-size: 18px;
+}
+/* 슬라이드 오른쪽파트 */
+.slide_right {
+  width: 50%;
+  background-color: gray;
+}
+.slide_tour_img {
+  width: 600px;
+  height: 600px;
+  border-radius: 300px;
+  border: 2px solid #000;
+}
+@media (max-width: 1015px) {
+  .slide_controller_plus {
+    border: 0;
+    right: 10px;
+    box-shadow: none;
+  }
+  .slide_controller_minus {
+    border: 0;
+    left: 10px;
+    box-shadow: none;
+  }
+}

@@ -5,7 +5,15 @@ import Main from "./component/main/main";
 import axios from "axios";
 
 class App extends Component {
-  state = { object: [] };
+  state = { object: [], headColor: "" };
+
+  handleScroll = () => {
+    if (window.scrollY > 0) {
+      this.setState({ headColor: "white" });
+    } else {
+      this.setState({ headColor: "transparent" });
+    }
+  };
 
   getData = async () => {
     await axios
@@ -20,13 +28,14 @@ class App extends Component {
   };
 
   componentDidMount() {
-    this.getData();
+    // this.getData();
+    window.addEventListener("scroll", this.handleScroll);
   }
 
   render() {
     return (
       <div className="container">
-        <Header />
+        <Header isScroll={this.state.headColor} />
         <Main />
       </div>
     );

@@ -5,13 +5,18 @@ import { IoIosArrowDown } from "react-icons/io";
 import { ImCross } from "react-icons/im";
 import { BiLogIn, BiLogOut, BiUserPlus } from "react-icons/bi";
 
-// Header props, state
-interface HeaderProps {}
+// 스크롤된 상태에 따라서 헤더 색깔 적용
+interface HeaderProps {
+  isScroll: string;
+}
+
+// Header state
 interface HeaderState {
   isDisplay: boolean;
   width: number;
   keyWord: string;
   isLogin: boolean;
+  offsetY: number;
 }
 // Header > MenuContent props, state
 interface MenuContentProps {
@@ -28,6 +33,7 @@ class Header extends Component<HeaderProps, HeaderState> {
     isDisplay: false,
     isLogin: false,
     width: window.innerWidth,
+    offsetY: 0,
     keyWord: "",
   };
 
@@ -58,8 +64,10 @@ class Header extends Component<HeaderProps, HeaderState> {
     const showNavHover = (event: MouseEvent<HTMLDivElement>) => {
       if (navHoverRef.current !== null && headRef.current !== null) {
         navHoverRef.current.style.display = "flex";
+        navHoverRef.current.style.backgroundColor = "#fff";
         headRef.current.style.boxShadow = "rgba(0, 0, 0, 0.8) 0 0 0 9999px";
-        headRef.current.style.zIndex = "100";
+        headRef.current.style.backgroundColor = "#fff";
+        // headRef.current.style.zIndex = "100";
         this.setState({ ...this.state, keyWord: event.currentTarget.id });
       }
     };
@@ -69,13 +77,18 @@ class Header extends Component<HeaderProps, HeaderState> {
       if (navHoverRef.current !== null && headRef.current !== null) {
         navHoverRef.current.style.display = "none";
         headRef.current.style.boxShadow = "none";
-        headRef.current.style.zIndex = "0";
+        headRef.current.style.backgroundColor = this.props.isScroll;
+        // headRef.current.style.zIndex = "0";
         this.setState({ ...this.state, keyWord: event.currentTarget.id });
       }
     };
 
     return (
-      <div className={styles.head} ref={headRef}>
+      <div
+        className={styles.head}
+        ref={headRef}
+        style={{ backgroundColor: this.props.isScroll }}
+      >
         {/* 검색 */}
         <div className={styles.head_search} ref={searchRef}>
           <div>
@@ -112,34 +125,37 @@ class Header extends Component<HeaderProps, HeaderState> {
           </div>
         </div>
         {/* 헤더상단 */}
-        <div className={styles.head_in_top} onMouseEnter={hideNavHover}>
+        {this.props.isScroll === "transparent" && this.state.width > 1015 && (
+          <div className={styles.head_in_top} onMouseEnter={hideNavHover}>
+            {/* 헤더 상단 콘텐츠 */}
+            <div className={styles.head_content_top}>
+              {this.state.isLogin ? (
+                <div className={styles.head_content_in_top_loginOut}>
+                  <div>
+                    <p>로그아웃</p>
+                  </div>
+                </div>
+              ) : (
+                <div className={styles.head_content_in_top_login}>
+                  {/* 로그인 */}
+                  <div>
+                    <p>로그인</p>
+                  </div>
+                  {/* 회원가입 */}
+                  <div>
+                    <p>회원가입</p>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        <div className={styles.head_in}>
           {/* 메뉴 아이콘 1015px 이하만 적용 */}
           <div className={styles.head_menu} onClick={onClick}>
             <BiMenu />
           </div>
-          {/* 헤더 상단 콘텐츠 */}
-          <div className={styles.head_content_top}>
-            {this.state.isLogin ? (
-              <div className={styles.head_content_in_top_loginOut}>
-                <div>
-                  <p>로그아웃</p>
-                </div>
-              </div>
-            ) : (
-              <div className={styles.head_content_in_top_login}>
-                {/* 로그인 */}
-                <div>
-                  <p>로그인</p>
-                </div>
-                {/* 회원가입 */}
-                <div>
-                  <p>회원가입</p>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-        <div className={styles.head_in}>
           {/* 로고 */}
           <div
             className={styles.head_logo}
@@ -356,7 +372,7 @@ class MenuContent extends Component<MenuContentProps, MenuContentState> {
           >
             <h2>{this.props.title}</h2>
             <i>
-              <IoIosArrowDown style={{ position: "relative", top: "5px" }} />
+              <IoIosArrowDown style={{ fill: "white" }} />
             </i>
           </div>
           {/* 메뉴 상세 내용 */}
