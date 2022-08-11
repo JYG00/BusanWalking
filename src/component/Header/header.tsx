@@ -3,11 +3,13 @@ import styles from "./header.module.css";
 import { BiSearch, BiMenu } from "react-icons/bi";
 import { IoIosArrowDown } from "react-icons/io";
 import { ImCross } from "react-icons/im";
+import { FiPlus } from "react-icons/fi";
 import { BiLogIn, BiLogOut, BiUserPlus } from "react-icons/bi";
 
 // 스크롤된 상태에 따라서 헤더 색깔 적용
 interface HeaderProps {
-  isScroll: string;
+  headBackgroundColor: string;
+  headBoxShadow: string;
 }
 
 // Header state
@@ -77,7 +79,7 @@ class Header extends Component<HeaderProps, HeaderState> {
       if (navHoverRef.current !== null && headRef.current !== null) {
         navHoverRef.current.style.display = "none";
         headRef.current.style.boxShadow = "none";
-        headRef.current.style.backgroundColor = this.props.isScroll;
+        headRef.current.style.backgroundColor = this.props.headBackgroundColor;
         // headRef.current.style.zIndex = "0";
         this.setState({ ...this.state, keyWord: event.currentTarget.id });
       }
@@ -87,7 +89,10 @@ class Header extends Component<HeaderProps, HeaderState> {
       <div
         className={styles.head}
         ref={headRef}
-        style={{ backgroundColor: this.props.isScroll }}
+        style={{
+          backgroundColor: this.props.headBackgroundColor,
+          boxShadow: this.props.headBoxShadow,
+        }}
       >
         {/* 검색 */}
         <div className={styles.head_search} ref={searchRef}>
@@ -119,37 +124,39 @@ class Header extends Component<HeaderProps, HeaderState> {
               }}
             >
               <button className={styles.search_icon}>
-                <ImCross />
+                {/* <ImCross /> */}
+                <FiPlus style={{ transform: "rotate(45deg)" }} />
               </button>
             </div>
           </div>
         </div>
         {/* 헤더상단 */}
-        {this.props.isScroll === "transparent" && this.state.width > 1015 && (
-          <div className={styles.head_in_top} onMouseEnter={hideNavHover}>
-            {/* 헤더 상단 콘텐츠 */}
-            <div className={styles.head_content_top}>
-              {this.state.isLogin ? (
-                <div className={styles.head_content_in_top_loginOut}>
-                  <div>
-                    <p>로그아웃</p>
+        {this.props.headBackgroundColor === "transparent" &&
+          this.state.width > 1015 && (
+            <div className={styles.head_in_top} onMouseEnter={hideNavHover}>
+              {/* 헤더 상단 콘텐츠 */}
+              <div className={styles.head_content_top}>
+                {this.state.isLogin ? (
+                  <div className={styles.head_content_in_top_loginOut}>
+                    <div>
+                      <p>로그아웃</p>
+                    </div>
                   </div>
-                </div>
-              ) : (
-                <div className={styles.head_content_in_top_login}>
-                  {/* 로그인 */}
-                  <div>
-                    <p>로그인</p>
+                ) : (
+                  <div className={styles.head_content_in_top_login}>
+                    {/* 로그인 */}
+                    <div>
+                      <p>로그인</p>
+                    </div>
+                    {/* 회원가입 */}
+                    <div>
+                      <p>회원가입</p>
+                    </div>
                   </div>
-                  {/* 회원가입 */}
-                  <div>
-                    <p>회원가입</p>
-                  </div>
-                </div>
-              )}
+                )}
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
         <div className={styles.head_in}>
           {/* 메뉴 아이콘 1015px 이하만 적용 */}

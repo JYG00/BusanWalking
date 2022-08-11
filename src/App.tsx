@@ -5,13 +5,23 @@ import Main from "./component/main/main";
 import axios from "axios";
 
 class App extends Component {
-  state = { object: [], headColor: "" };
+  state = {
+    object: [],
+    headBackgroundColor: "transparent",
+    headBoxShadow: "none",
+  };
 
   handleScroll = () => {
     if (window.scrollY > 0) {
-      this.setState({ headColor: "white" });
-    } else {
-      this.setState({ headColor: "transparent" });
+      this.setState({
+        headBackgroundColor: "white",
+        headBoxShadow: "rgb(0 0 0 / 35%) 0px 5px 15px",
+      });
+    } else if (window.scrollY === 0) {
+      this.setState({
+        headBackgroundColor: "transparent",
+        headBoxShadow: "none",
+      });
     }
   };
 
@@ -35,7 +45,10 @@ class App extends Component {
   render() {
     return (
       <div className="container">
-        <Header isScroll={this.state.headColor} />
+        <Header
+          headBackgroundColor={this.state.headBackgroundColor}
+          headBoxShadow={this.state.headBoxShadow}
+        />
         <Main />
       </div>
     );

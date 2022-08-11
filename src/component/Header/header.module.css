@@ -7,7 +7,6 @@
   top: 0;
   z-index: 1;
   background-color: transparent;
-  /* transition: all 0.3s ease-in; */
 }
 /* 헤더 검색 영역 */
 .head_search {
@@ -48,7 +47,7 @@
   margin-left: 20px;
   font-size: 30px;
   border-radius: 30px;
-  border: 2px solid #777;
+  border: 2px solid transparent;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 .head_search button:hover {
@@ -59,7 +58,6 @@
   position: absolute;
   right: 0;
   margin-right: 20px;
-
   cursor: pointer;
 }
 
@@ -246,6 +244,7 @@
   width: 100%;
   justify-content: space-between;
   height: 160px;
+  border-top: 1px solid #999;
 }
 /* 헤드 hover 컨텐츠 */
 .head_logo_hover {
@@ -260,7 +259,7 @@
 .head_content_hover {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   margin-right: 50px;
   width: 1000px;
   height: 100%;
@@ -278,11 +277,11 @@
 }
 .head_hover_container > div {
   padding-top: 20px;
-  border-top: 1px solid transparent;
+  border-top: 3px solid transparent;
 }
 /* hover된 영역에 보더값 적용 */
 .head_hover_container > .head_hover_on {
-  border-top: 1px solid #000;
+  border-top: 3px solid #483d8b;
 }
 .head_content_in_hover > div {
   width: 100%;
@@ -408,7 +407,7 @@
     border: 0;
   }
   .head_search input::placeholder {
-    font-size: 12px;
+    font-size: 16px;
   }
   .head_search > div > div:first-child button {
     position: absolute;
@@ -420,16 +419,15 @@
     font-size: 20px;
     margin-left: 20px;
     border-radius: 20px;
-    border: 1px solid #777;
+    border: 2px solid #999;
   }
   .head_search button:hover {
-    border: 2px solid #000;
   }
   /* 검색 아이콘 스타일 */
   .head_search > div > div:last-child {
     position: absolute;
     top: 0;
-    left: 5px;
+    left: 0;
     cursor: pointer;
   }
   .head_search > div > div:last-child > button {
@@ -439,6 +437,5 @@
     width: 40px;
     height: 40px;
     box-shadow: none;
-    font-size: 30px;
   }
 }

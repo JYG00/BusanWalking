@@ -6,7 +6,6 @@ import React, {
   useRef,
   useState,
 } from "react";
-
 import { FiPlus } from "react-icons/fi";
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import styles from "./main.module.css";
@@ -24,7 +23,7 @@ interface SlideState {
   rotateIcon: string;
 }
 
-export default function Main() {
+export default function MainCarousel() {
   const [SlideIdx, setSlideIdx] = useState<number>(1);
   const SlideRef = useRef<null | HTMLDivElement[]>([]);
 
@@ -213,10 +212,6 @@ export default function Main() {
           />
         </div>
       </div>
-      {/* 중간 파트 : 카테고리 table */}
-      <div className={styles.main_mid}>2</div>
-      {/* 하단 파트 : notice  */}
-      <div className={styles.main_bottom}>3</div>
     </div>
   );
 }
