@@ -1,3 +1,4 @@
+// Main Carousel Component
 import React, {
   Component,
   MouseEvent,
@@ -8,7 +9,7 @@ import React, {
 } from "react";
 import { FiPlus } from "react-icons/fi";
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
-import styles from "./main.module.css";
+import styles from "./main_carousel.module.css";
 
 interface SlideProps {
   color: string;

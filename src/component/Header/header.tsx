@@ -124,7 +124,6 @@ class Header extends Component<HeaderProps, HeaderState> {
               }}
             >
               <button className={styles.search_icon}>
-                {/* <ImCross /> */}
                 <FiPlus style={{ transform: "rotate(45deg)" }} />
               </button>
             </div>
@@ -292,7 +291,7 @@ class Header extends Component<HeaderProps, HeaderState> {
                 <div className={styles.icon_bar}>
                   {/* 닫기 아이콘 */}
                   <div onClick={onClick}>
-                    <ImCross />
+                    <FiPlus style={{ transform: "rotate(45deg)" }} />
                     <p>메뉴 닫기</p>
                   </div>
                   {/* 로그아웃 아이콘 */}
@@ -305,7 +304,7 @@ class Header extends Component<HeaderProps, HeaderState> {
                 <div className={styles.icon_bar}>
                   {/* 닫기 아이콘 */}
                   <div onClick={onClick}>
-                    <ImCross />
+                    <FiPlus style={{ transform: "rotate(45deg)" }} />
                     <p>메뉴 닫기</p>
                   </div>
                   {/* 로그인 아이콘 */}
