@@ -2,7 +2,6 @@ import React, { Component, FormEvent, MouseEvent, ReactNode } from "react";
 import styles from "./header.module.css";
 import { BiSearch, BiMenu } from "react-icons/bi";
 import { IoIosArrowDown } from "react-icons/io";
-import { ImCross } from "react-icons/im";
 import { FiPlus } from "react-icons/fi";
 import { BiLogIn, BiLogOut, BiUserPlus } from "react-icons/bi";
 
@@ -19,6 +18,8 @@ interface HeaderState {
   keyWord: string;
   isLogin: boolean;
   offsetY: number;
+  headColor: string;
+  headShadow: string;
 }
 // Header > MenuContent props, state
 interface MenuContentProps {
@@ -37,6 +38,8 @@ class Header extends Component<HeaderProps, HeaderState> {
     width: window.innerWidth,
     offsetY: 0,
     keyWord: "",
+    headColor: "transparent",
+    headShadow: "none",
   };
 
   updateDimensions = () => {
@@ -49,6 +52,25 @@ class Header extends Component<HeaderProps, HeaderState> {
   componentDidMount() {
     window.addEventListener("resize", this.updateDimensions);
     return () => window.removeEventListener("resize", this.updateDimensions);
+  }
+
+  componentDidUpdate(prevProps: HeaderProps, prevState: HeaderState): void {
+    if (this.props.headBackgroundColor !== prevProps.headBackgroundColor) {
+      // Nav 영역에 마우스 커서 여부에 따라 스타일 적용
+      if (this.state.keyWord !== "") {
+        this.setState({
+          ...this.state,
+          headColor: "white",
+          headShadow: "none",
+        });
+      } else {
+        this.setState({
+          ...this.state,
+          headColor: this.props.headBackgroundColor,
+          headShadow: this.props.headBoxShadow,
+        });
+      }
+    }
   }
 
   render(): ReactNode {
@@ -81,7 +103,7 @@ class Header extends Component<HeaderProps, HeaderState> {
         headRef.current.style.boxShadow = "none";
         headRef.current.style.backgroundColor = this.props.headBackgroundColor;
         // headRef.current.style.zIndex = "0";
-        this.setState({ ...this.state, keyWord: event.currentTarget.id });
+        this.setState({ ...this.state, keyWord: "" });
       }
     };
 
@@ -90,8 +112,8 @@ class Header extends Component<HeaderProps, HeaderState> {
         className={styles.head}
         ref={headRef}
         style={{
-          backgroundColor: this.props.headBackgroundColor,
-          boxShadow: this.props.headBoxShadow,
+          backgroundColor: this.state.headColor,
+          boxShadow: this.state.headShadow,
         }}
       >
         {/* 검색 */}
@@ -174,15 +196,27 @@ class Header extends Component<HeaderProps, HeaderState> {
           <div className={styles.head_content}>
             <div className={styles.head_content_in}>
               {/* 관광지 */}
-              <div onMouseEnter={showNavHover} id="관광지">
+              <div
+                onMouseEnter={showNavHover}
+                onMouseLeave={hideNavHover}
+                id="관광지"
+              >
                 <p>관광지</p>
               </div>
               {/* 참여마당 */}
-              <div onMouseEnter={showNavHover} id="참여마당">
+              <div
+                onMouseEnter={showNavHover}
+                onMouseLeave={hideNavHover}
+                id="참여마당"
+              >
                 <p>참여마당</p>
               </div>
               {/* 문의 */}
-              <div onMouseEnter={showNavHover} id="문의">
+              <div
+                onMouseEnter={showNavHover}
+                onMouseLeave={hideNavHover}
+                id="문의"
+              >
                 <p>문의</p>
               </div>
               {/* 검색 */}
