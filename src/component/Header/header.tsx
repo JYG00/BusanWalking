@@ -4,13 +4,12 @@ import { BiSearch, BiMenu } from "react-icons/bi";
 import { IoIosArrowDown } from "react-icons/io";
 import { FiPlus } from "react-icons/fi";
 import { BiLogIn, BiLogOut, BiUserPlus } from "react-icons/bi";
+import HoverContent from "./header_component/hover_content";
 
 // 스크롤된 상태에 따라서 헤더 색깔 적용
 interface HeaderProps {
-  headBackgroundColor: string;
-  headBoxShadow: string;
+  isScroll: boolean;
 }
-
 // Header state
 interface HeaderState {
   isDisplay: boolean;
@@ -29,7 +28,6 @@ interface MenuContentProps {
 interface MenuContentState {
   isDisplay: boolean;
 }
-
 // 헤더
 class Header extends Component<HeaderProps, HeaderState> {
   state: HeaderState = {
@@ -41,40 +39,43 @@ class Header extends Component<HeaderProps, HeaderState> {
     headColor: "transparent",
     headShadow: "none",
   };
-
   updateDimensions = () => {
     this.setState({ ...this.state, width: window.innerWidth });
     if (this.state.width > 1015) {
       this.setState({ isDisplay: false });
     }
   };
-
   componentDidMount() {
     window.addEventListener("resize", this.updateDimensions);
     return () => window.removeEventListener("resize", this.updateDimensions);
   }
-
   componentDidUpdate(prevProps: HeaderProps, prevState: HeaderState): void {
-    if (this.props.headBackgroundColor !== prevProps.headBackgroundColor) {
-      // Nav 영역에 마우스 커서 여부에 따라 스타일 적용
-      if (this.state.keyWord !== "") {
-        this.setState({
-          ...this.state,
-          headColor: "white",
-          headShadow: "none",
-        });
+    if (this.props.isScroll !== prevProps.isScroll) {
+      // 마우스 커서 여부에 따라 스타일 적용
+      if (this.props.isScroll) {
+        // state의 keyword는 hover 여부를 나타냅니다
+        // state의 keyword가 공백이면 hover 상태
+        if (this.state.keyWord === "") {
+          this.setState({
+            ...this.state,
+            headColor: "white",
+            headShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+          });
+        }
       } else {
-        this.setState({
-          ...this.state,
-          headColor: this.props.headBackgroundColor,
-          headShadow: this.props.headBoxShadow,
-        });
+        if (this.state.keyWord === "") {
+          this.setState({
+            ...this.state,
+            headColor: "transparent",
+            headShadow: "none",
+          });
+        }
       }
     }
   }
 
   render(): ReactNode {
-    const navHoverRef = React.createRef<HTMLDivElement>();
+    // useRef
     const menuRef = React.createRef<HTMLDivElement>();
     const headRef = React.createRef<HTMLDivElement>();
     const searchRef = React.createRef<HTMLDivElement>();
@@ -86,24 +87,30 @@ class Header extends Component<HeaderProps, HeaderState> {
 
     // 마우스를 올리면 NavHover 메뉴 표시
     const showNavHover = (event: MouseEvent<HTMLDivElement>) => {
-      if (navHoverRef.current !== null && headRef.current !== null) {
-        navHoverRef.current.style.display = "flex";
-        navHoverRef.current.style.backgroundColor = "#fff";
-        headRef.current.style.boxShadow = "rgba(0, 0, 0, 0.8) 0 0 0 9999px";
-        headRef.current.style.backgroundColor = "#fff";
-        // headRef.current.style.zIndex = "100";
-        this.setState({ ...this.state, keyWord: event.currentTarget.id });
-      }
+      this.setState({
+        ...this.state,
+        headColor: "white",
+        headShadow: "rgba(0, 0, 0, 0.8) 0 0 0 9999px",
+        keyWord: event.currentTarget.id,
+      });
     };
 
     // 영역 밖으로 나가면 NavHover 숨김
     const hideNavHover = (event: MouseEvent<HTMLDivElement>) => {
-      if (navHoverRef.current !== null && headRef.current !== null) {
-        navHoverRef.current.style.display = "none";
-        headRef.current.style.boxShadow = "none";
-        headRef.current.style.backgroundColor = this.props.headBackgroundColor;
-        // headRef.current.style.zIndex = "0";
-        this.setState({ ...this.state, keyWord: "" });
+      if (this.props.isScroll) {
+        this.setState({
+          ...this.state,
+          headColor: "white",
+          headShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+          keyWord: "",
+        });
+      } else {
+        this.setState({
+          ...this.state,
+          headColor: "transparent",
+          headShadow: "none",
+          keyWord: "",
+        });
       }
     };
 
@@ -152,33 +159,31 @@ class Header extends Component<HeaderProps, HeaderState> {
           </div>
         </div>
         {/* 헤더상단 */}
-        {this.props.headBackgroundColor === "transparent" &&
-          this.state.width > 1015 && (
-            <div className={styles.head_in_top} onMouseEnter={hideNavHover}>
-              {/* 헤더 상단 콘텐츠 */}
-              <div className={styles.head_content_top}>
-                {this.state.isLogin ? (
-                  <div className={styles.head_content_in_top_loginOut}>
-                    <div>
-                      <p>로그아웃</p>
-                    </div>
+        {!this.props.isScroll && this.state.width > 1015 && (
+          <div className={styles.head_in_top} onMouseEnter={hideNavHover}>
+            {/* 헤더 상단 콘텐츠 */}
+            <div className={styles.head_content_top}>
+              {this.state.isLogin ? (
+                <div className={styles.head_content_in_top_loginOut}>
+                  <div>
+                    <p>로그아웃</p>
                   </div>
-                ) : (
-                  <div className={styles.head_content_in_top_login}>
-                    {/* 로그인 */}
-                    <div>
-                      <p>로그인</p>
-                    </div>
-                    {/* 회원가입 */}
-                    <div>
-                      <p>회원가입</p>
-                    </div>
+                </div>
+              ) : (
+                <div className={styles.head_content_in_top_login}>
+                  {/* 로그인 */}
+                  <div>
+                    <p>로그인</p>
                   </div>
-                )}
-              </div>
+                  {/* 회원가입 */}
+                  <div>
+                    <p>회원가입</p>
+                  </div>
+                </div>
+              )}
             </div>
-          )}
-
+          </div>
+        )}
         <div className={styles.head_in}>
           {/* 메뉴 아이콘 1015px 이하만 적용 */}
           <div className={styles.head_menu} onClick={onClick}>
@@ -202,6 +207,7 @@ class Header extends Component<HeaderProps, HeaderState> {
                 id="관광지"
               >
                 <p>관광지</p>
+                <HoverContent keyWord="관광지" isScroll={this.props.isScroll} />
               </div>
               {/* 참여마당 */}
               <div
@@ -210,6 +216,10 @@ class Header extends Component<HeaderProps, HeaderState> {
                 id="참여마당"
               >
                 <p>참여마당</p>
+                <HoverContent
+                  keyWord="참여마당"
+                  isScroll={this.props.isScroll}
+                />
               </div>
               {/* 문의 */}
               <div
@@ -218,6 +228,7 @@ class Header extends Component<HeaderProps, HeaderState> {
                 id="문의"
               >
                 <p>문의</p>
+                <HoverContent keyWord="문의" isScroll={this.props.isScroll} />
               </div>
               {/* 검색 */}
               <div
@@ -240,84 +251,9 @@ class Header extends Component<HeaderProps, HeaderState> {
             </div>
           </div>
         </div>
-        {this.state.width > 1015 && (
-          <div
-            className={styles.head_in_hover}
-            ref={navHoverRef}
-            onMouseLeave={hideNavHover}
-          >
-            {/* 크기를 맞추기 위한 빈 태그 */}
-            <div className={styles.head_logo_hover}>{this.state.keyWord}</div>
-            {/* 헤더 hover 컨텐츠 */}
-            <div className={styles.head_content_hover}>
-              <div className={styles.head_content_in_hover}>
-                {(() => {
-                  switch (this.state.keyWord) {
-                    case "관광지": {
-                      return (
-                        <div className={styles.head_hover_container}>
-                          <div className={styles.head_hover_on}>
-                            <div></div>
-                            <p>전체관광지</p>
-                          </div>
-                          <div>
-                            <div></div>
-                            <p>숲길</p>
-                          </div>
-                          <div>
-                            <div></div>
-                            <p>해안길</p>
-                          </div>
-                          <div>
-                            <div></div>
-                            <p>도심길</p>
-                          </div>
-                        </div>
-                      );
-                    }
-                    case "참여마당": {
-                      return (
-                        <div className={styles.head_hover_container}>
-                          <div>
-                            <div></div>
-                            <p>명소공유</p>
-                          </div>
-                          <div className={styles.head_hover_on}>
-                            <div></div>
-                            <p>Q&A</p>
-                          </div>
-                        </div>
-                      );
-                    }
-                    case "문의": {
-                      return (
-                        <div className={styles.head_hover_container}>
-                          <div>
-                            <div></div>
-                            <p>이용문의</p>
-                          </div>
-                          <div>
-                            <div></div>
-                            <p>관광불편신고</p>
-                          </div>
-                          <div className={styles.head_hover_on}>
-                            <div style={{ opacity: 0 }}></div>
-                            <p style={{ opacity: 0 }}>..</p>
-                          </div>
-                        </div>
-                      );
-                    }
-                    default: {
-                      return <div></div>;
-                    }
-                  }
-                })()}
-              </div>
-            </div>
-          </div>
-        )}
+
         {/* 메뉴 아이콘 클릭 시 */}
-        {/* 메뉴 설정 (850px 이하)*/}
+        {/* 메뉴 설정 (1015px 이하)*/}
         {this.state.width < 1015 && this.state.isDisplay && (
           <div>
             <div className={styles.head_menu_content} ref={menuRef}>
@@ -353,7 +289,6 @@ class Header extends Component<HeaderProps, HeaderState> {
                   </div>
                 </div>
               )}
-
               <div>
                 {/* 관광지 */}
                 <MenuContent

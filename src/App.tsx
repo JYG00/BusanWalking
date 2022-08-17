@@ -1,26 +1,22 @@
 import React, { Component } from "react";
 import "./App.css";
 import Header from "./component/Header/header";
-import Main from "./component/main/main";
+import Main from "./component/Main/main";
 import axios from "axios";
 
 class App extends Component {
   state = {
     object: [],
-    headBackgroundColor: "transparent",
-    headBoxShadow: "none",
+    isScroll: false,
   };
 
   handleScroll = () => {
     if (window.scrollY > 0) {
-      this.setState({
-        headBackgroundColor: "white",
-        headBoxShadow: "rgb(0 0 0 / 35%) 0px 5px 15px",
-      });
+      this.setState({ ...this.state, isScroll: true });
     } else if (window.scrollY === 0) {
       this.setState({
-        headBackgroundColor: "transparent",
-        headBoxShadow: "none",
+        ...this.state,
+        isScroll: false,
       });
     }
   };
@@ -40,15 +36,13 @@ class App extends Component {
   componentDidMount() {
     // this.getData();
     window.addEventListener("scroll", this.handleScroll);
+    return () => window.removeEventListener("scroll", this.handleScroll);
   }
 
   render() {
     return (
       <div className="container">
-        <Header
-          headBackgroundColor={this.state.headBackgroundColor}
-          headBoxShadow={this.state.headBoxShadow}
-        />
+        <Header isScroll={this.state.isScroll} />
         <Main />
       </div>
     );

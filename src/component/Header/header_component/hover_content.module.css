@@ -1,0 +1,83 @@
+/* /////////// */
+/* 헤더 hover */
+.head_in_hover {
+  /* display:none */
+  display: none;
+  position: absolute;
+  top: 140px;
+  width: 100%;
+  justify-content: space-between;
+  height: 160px;
+  border-top: 1px solid #999;
+}
+/* 헤드 hover 컨텐츠 */
+.head_logo_hover {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 50px;
+  width: 200px;
+  height: 100%;
+  /* height: 160px; */
+}
+.head_content_hover {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  margin-right: 50px;
+  width: 1000px;
+  height: 100%;
+  /* height: 160px; */
+}
+.head_content_in_hover {
+  display: flex;
+  width: 100%;
+}
+.head_hover_container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+}
+.head_hover_container > div {
+  padding-top: 20px;
+  border-top: 3px solid transparent;
+}
+/* hover된 영역에 보더값 적용 */
+.head_hover_container > .head_hover_on {
+  border-top: 3px solid #483d8b;
+}
+.head_content_in_hover > div {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+}
+.head_hover_container > div {
+  cursor: pointer;
+
+  width: 25%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.head_hover_container > div > div {
+  width: 100px;
+  height: 100px;
+  border: 1px solid #000;
+  border-radius: 25px;
+  background-color: #f3f3f3;
+}
+.head_hover_container p {
+  margin-top: 3px;
+}
+
+@media (max-width: 1015px) {
+  /* /////////// */
+  /* 헤더 hover */
+  .head_in_hover {
+    display: none;
+  }
+}
