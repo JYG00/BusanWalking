@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/BusanWalking/static/css/main.3d86cdf0.css",
-    "main.js": "/BusanWalking/static/js/main.b98a48e2.js",
+    "main.css": "/BusanWalking/static/css/main.de23222e.css",
+    "main.js": "/BusanWalking/static/js/main.28946eb4.js",
     "static/js/787.1acaf25b.chunk.js": "/BusanWalking/static/js/787.1acaf25b.chunk.js",
     "static/media/city_cartoon.jpg": "/BusanWalking/static/media/city_cartoon.71422101a33fba3df63f.jpg",
     "static/media/coast_cartoon.jpg": "/BusanWalking/static/media/coast_cartoon.40f1b49a0e284cbbc649.jpg",
@@ -10,12 +10,12 @@
     "static/media/coast.jpg": "/BusanWalking/static/media/coast.0e33214d08f0e994e100.jpg",
     "static/media/forest_cartoon.jpg": "/BusanWalking/static/media/forest_cartoon.6c7c10f980ac08d380d7.jpg",
     "index.html": "/BusanWalking/index.html",
-    "main.3d86cdf0.css.map": "/BusanWalking/static/css/main.3d86cdf0.css.map",
-    "main.b98a48e2.js.map": "/BusanWalking/static/js/main.b98a48e2.js.map",
+    "main.de23222e.css.map": "/BusanWalking/static/css/main.de23222e.css.map",
+    "main.28946eb4.js.map": "/BusanWalking/static/js/main.28946eb4.js.map",
     "787.1acaf25b.chunk.js.map": "/BusanWalking/static/js/787.1acaf25b.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.3d86cdf0.css",
-    "static/js/main.b98a48e2.js"
+    "static/css/main.de23222e.css",
+    "static/js/main.28946eb4.js"
   ]
 }
