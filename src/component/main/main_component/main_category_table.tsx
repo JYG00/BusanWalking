@@ -1,3 +1,4 @@
+// Main Category Table Component
 import { MouseEvent, useEffect, useState } from "react";
 import styles from "./main_category_table.module.css";
 import forestImage from "../../../image/forest.jpg";
@@ -67,48 +68,31 @@ export default function MainCategoryTable() {
             {/* 카테고리 헤드 */}
             {/* 숲길, 해안길, 도심길 */}
             <div className={styles.table_head}>
-              <div
-                id="forest"
-                onClick={showTable}
-                style={{
-                  background: `url(${forestCartoonImage})`,
-                  backgroundSize: "cover",
-                }}
-              >
+              <div id="forest" onClick={showTable}>
+                <img src={forestCartoonImage} alt="ForestIcon" />
                 <h4>숲길</h4>
               </div>
-              <div
-                id="coast"
-                onClick={showTable}
-                style={{
-                  background: `url(${coastCartoonImage})`,
-                  backgroundSize: "cover",
-                }}
-              >
+              <div id="coast" onClick={showTable}>
+                <img src={coastCartoonImage} alt="CoastIcon" />
                 <h4>해안길</h4>
               </div>
-              <div
-                id="city"
-                onClick={showTable}
-                style={{
-                  background: `url(${cityCartoonImage})`,
-                  backgroundSize: "cover",
-                }}
-              >
+              <div id="city" onClick={showTable}>
+                <img src={cityCartoonImage} alt="CityIcon" />
                 <h4>도심길</h4>
               </div>
             </div>
-            <div
-              className={styles.banner}
-              style={{
-                background: `url(${ctgState.keyImage}) no-repeat`,
-                backgroundSize: "cover",
-              }}
-            ></div>
+
             {/* 카테고리 내용 */}
             <div className={styles.table_content}>
+              <div
+                className={styles.banner}
+                style={{
+                  background: `url(${ctgState.keyImage}) no-repeat`,
+                  backgroundSize: "150% 100%",
+                }}
+              ></div>
               <p className={styles.banner_title}>{ctgState.keyTitle}</p>
-              <div>
+              <div className={styles.content}>
                 <div>{ctgState.keyWord}</div>
                 <div>{ctgState.keyWord}</div>
                 <div>{ctgState.keyWord}</div>

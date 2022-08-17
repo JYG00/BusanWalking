@@ -124,7 +124,7 @@ export default function MainCarousel() {
         >
           <SlideImg
             color="green"
-            description="부산 서구 동대신동에 위치한 작은 마을이 있습니다. 어쩌고 저쩌고 ..."
+            description="설명..."
             place="닥밭골 행복마을"
             traffic=""
             mainImg=""
@@ -176,7 +176,7 @@ export default function MainCarousel() {
             place="감천문화마을"
             traffic=""
             mainImg=""
-            title="산복도로에 있는 옹지종기 모여있는 마을"
+            title="아늑한 달동네"
           />
         </div>
         <div
@@ -205,7 +205,7 @@ export default function MainCarousel() {
         >
           <SlideImg
             color="green"
-            description="부산 서구 동대신동에 위치한 작은 마을이 있습니다. 어쩌고 저쩌고 ..."
+            description="설명"
             place="닥밭골 행복마을"
             traffic=""
             mainImg=""

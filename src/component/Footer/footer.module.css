@@ -1,0 +1,50 @@
+/* Footer */
+.container {
+  width: 100%;
+  height: 220px;
+  background-color: #ece4db;
+}
+.container > div {
+  display: flex;
+  width: 100%;
+  height: 220px;
+  justify-content: space-around;
+  align-items: center;
+}
+/* 로고 */
+.logo {
+  width: 200px;
+  min-width: 160px;
+  height: 100px;
+  background-color: purple;
+}
+/* 이메일 / 대표 전화 / FAX */
+.company_email {
+  display: flex;
+}
+.company_email p:after {
+  display: inline-block;
+  content: "";
+  margin: 0 10px;
+  height: 15px;
+  border-right: 1px solid #000;
+}
+.company_email p:last-child::after {
+  display: none;
+}
+.company_sns > link:hover {
+  opacity: 1;
+}
+@media (max-width: 1015px) {
+  /* 이메일 / 대표 전화 / FAX */
+  .company_email {
+    display: block;
+  }
+  /* 구분선 (오른쪽 보더) */
+  .company_email p:after {
+    display: none;
+  }
+  .company_desc {
+    font-size: 13px;
+  }
+}

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./App.css";
 import Header from "./component/Header/header";
 import Main from "./component/Main/main";
+import Footer from "./component/Footer/footer";
 import axios from "axios";
 
 class App extends Component {
@@ -44,6 +45,7 @@ class App extends Component {
       <div className="container">
         <Header isScroll={this.state.isScroll} />
         <Main />
+        <Footer />
       </div>
     );
   }
