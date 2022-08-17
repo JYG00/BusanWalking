@@ -62,15 +62,6 @@ export default function MainCategoryTable() {
       {/* 배너 */}
       {renderSwitch && (
         <div>
-          <div
-            className={styles.banner}
-            style={{
-              background: `url(${ctgState.keyImage}) no-repeat`,
-              backgroundSize: "cover",
-            }}
-          >
-            <p>{ctgState.keyTitle}</p>
-          </div>
           {/* 카레고리 테이블 */}
           <div className={styles.table}>
             {/* 카테고리 헤드 */}
@@ -107,13 +98,23 @@ export default function MainCategoryTable() {
                 <h4>도심길</h4>
               </div>
             </div>
+            <div
+              className={styles.banner}
+              style={{
+                background: `url(${ctgState.keyImage}) no-repeat`,
+                backgroundSize: "cover",
+              }}
+            ></div>
             {/* 카테고리 내용 */}
             <div className={styles.table_content}>
-              <div>{ctgState.keyWord}</div>
-              <div>{ctgState.keyWord}</div>
-              <div>{ctgState.keyWord}</div>
-              <div>{ctgState.keyWord}</div>
-              <div>{ctgState.keyWord}</div>
+              <p className={styles.banner_title}>{ctgState.keyTitle}</p>
+              <div>
+                <div>{ctgState.keyWord}</div>
+                <div>{ctgState.keyWord}</div>
+                <div>{ctgState.keyWord}</div>
+                <div>{ctgState.keyWord}</div>
+                <div>{ctgState.keyWord}</div>
+              </div>
             </div>
           </div>
         </div>
