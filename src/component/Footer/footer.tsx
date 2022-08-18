@@ -1,17 +1,17 @@
-import styles from "./footer.module.css";
-import { BiCopyright } from "react-icons/bi";
-import { FaFacebookF, FaYoutube, FaInstagram } from "react-icons/fa";
-import { MouseEvent, useState } from "react";
+import styles from './footer.module.css';
+import { BiCopyright } from 'react-icons/bi';
+import { FaFacebookF, FaYoutube, FaInstagram } from 'react-icons/fa';
+import { MouseEvent, useState } from 'react';
 
 // SNS 아이콘 스타일
 const IconStyle = {
-  cursor: "pointer",
-  padding: "20px 20px 20px 20px",
-  margin: "5px 5px 0 5px",
-  borderRadius: "40px",
-  backgroundColor: "#f3f3f3",
-  boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
-  opacity: "0.8",
+  cursor: 'pointer',
+  padding: '20px 20px 20px 20px',
+  margin: '5px 5px 0 5px',
+  borderRadius: '40px',
+  backgroundColor: '#f3f3f3',
+  boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px',
+  opacity: '0.8',
 };
 // SNS 아이콘 투명도 설정
 interface IconState {
@@ -22,31 +22,31 @@ interface IconState {
 
 export default function Footer() {
   const [iconState, setIconState] = useState<IconState>({
-    facebook: "0.8",
-    instagram: "0.8",
-    youtube: "0.8",
+    facebook: '0.8',
+    instagram: '0.8',
+    youtube: '0.8',
   });
 
   // SNS 아이콘 Hover에 따라 투명도 적용
   const mouseOver = (e: MouseEvent) => {
-    switch (e.currentTarget.getAttribute("values")) {
-      case "youtube":
-        setIconState({ facebook: "0.8", instagram: "0.8", youtube: "1" });
+    switch (e.currentTarget.getAttribute('values')) {
+      case 'youtube':
+        setIconState({ facebook: '0.8', instagram: '0.8', youtube: '1' });
         break;
-      case "instagram":
-        setIconState({ facebook: "0.8", instagram: "1", youtube: "0.8" });
+      case 'instagram':
+        setIconState({ facebook: '0.8', instagram: '1', youtube: '0.8' });
         break;
-      case "facebook":
-        setIconState({ facebook: "1", instagram: "0.8", youtube: "0.8" });
+      case 'facebook':
+        setIconState({ facebook: '1', instagram: '0.8', youtube: '0.8' });
         break;
       default:
-        setIconState({ facebook: "0.8", instagram: "0.8", youtube: "0.8" });
+        setIconState({ facebook: '0.8', instagram: '0.8', youtube: '0.8' });
         break;
     }
   };
 
   const mouseLeave = () => {
-    setIconState({ facebook: "0.8", instagram: "0.8", youtube: "0.8" });
+    setIconState({ facebook: '0.8', instagram: '0.8', youtube: '0.8' });
   };
   return (
     <div className={styles.container}>
@@ -66,7 +66,7 @@ export default function Footer() {
           {/* 저작권 */}
           <div className={styles.company_copyright}>
             <p>
-              COPYRIGHT <BiCopyright /> BUSANWALKING ALL RIGHT REVERSED
+              COPYRIGHT <BiCopyright style={{ fill: '#555' }} /> BUSANWALKING ALL RIGHT REVERSED
             </p>
           </div>
         </div>
@@ -77,9 +77,8 @@ export default function Footer() {
             style={{
               ...IconStyle,
               opacity: iconState.instagram,
-              background:
-                "radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%)",
-              fill: "white",
+              background: 'radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%)',
+              fill: 'white',
             }}
             size={30}
             values="instagram"
@@ -91,8 +90,8 @@ export default function Footer() {
             style={{
               ...IconStyle,
               opacity: iconState.facebook,
-              backgroundColor: "#4267B2",
-              fill: "white",
+              backgroundColor: '#4267B2',
+              fill: 'white',
             }}
             size={30}
             values="facebook"
@@ -104,8 +103,8 @@ export default function Footer() {
             style={{
               ...IconStyle,
               opacity: iconState.youtube,
-              backgroundColor: "white",
-              fill: "#ff0000",
+              backgroundColor: 'white',
+              fill: '#ff0000',
             }}
             values="youtube"
             onMouseEnter={mouseOver}

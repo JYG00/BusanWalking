@@ -1,6 +1,6 @@
-import React, { Component } from "react";
-import { IoIosArrowDown } from "react-icons/io";
-import styles from "./menu_content.module.css";
+import React, { Component } from 'react';
+import { IoIosArrowDown } from 'react-icons/io';
+import styles from './menu_content.module.css';
 
 // Header > MenuContent props, state
 interface MenuContentProps {
@@ -11,10 +11,7 @@ interface MenuContentState {
   isDisplay: boolean;
 }
 // 메뉴 콘텐츠
-export default class MenuContent extends Component<
-  MenuContentProps,
-  MenuContentState
-> {
+export default class MenuContent extends Component<MenuContentProps, MenuContentState> {
   constructor(props: MenuContentProps) {
     super(props);
     this.state = {
@@ -29,7 +26,7 @@ export default class MenuContent extends Component<
     const contentRef = React.createRef<HTMLDivElement>();
 
     return (
-      <div>
+      <div className={styles.container}>
         <div>
           {/* 메뉴 이름 */}
           <div
@@ -39,9 +36,9 @@ export default class MenuContent extends Component<
             onClick={() => {
               if (contentRef.current !== null) {
                 if (this.state.isDisplay) {
-                  contentRef.current!.style.display = "block";
+                  contentRef.current!.style.display = 'block';
                 } else {
-                  contentRef.current!.style.display = "none";
+                  contentRef.current!.style.display = 'none';
                 }
                 this.setState({ isDisplay: !this.state.isDisplay });
               }
@@ -49,7 +46,7 @@ export default class MenuContent extends Component<
           >
             <h2>{this.props.title}</h2>
             <i>
-              <IoIosArrowDown style={{ fill: "white" }} />
+              <IoIosArrowDown style={{ fill: 'white' }} />
             </i>
           </div>
           {/* 메뉴 상세 내용 */}

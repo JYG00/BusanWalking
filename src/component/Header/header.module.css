@@ -8,58 +8,6 @@
   z-index: 100;
   background-color: transparent;
 }
-/* 헤더 검색 영역 */
-.head_search {
-  display: none;
-  position: absolute;
-  width: 100%;
-  height: 140px;
-  z-index: -1;
-  background-color: #00bfff;
-}
-.head_search > div > div {
-  height: 140px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* 검색 폼 스타일 */
-.head_search > div > div:first-child {
-  width: 650px;
-  height: 60px;
-}
-.head_search input {
-  padding-left: 5px;
-  width: 500px;
-  height: 60px;
-  font-size: 28px;
-  border: 0;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-}
-.head_search input::placeholder {
-  font-size: 20px;
-}
-.head_search button {
-  width: 60px;
-  height: 60px;
-  cursor: pointer;
-  margin-left: 20px;
-  font-size: 30px;
-  border-radius: 30px;
-  border: 2px solid transparent;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-}
-.head_search button:hover {
-  border: 2px solid #000;
-}
-/* 검색 아이콘 스타일 */
-.head_search > div > div:last-child {
-  position: absolute;
-  right: 0;
-  margin-right: 20px;
-  cursor: pointer;
-}
 
 /* 헤더상단 */
 .head_in_top {
@@ -283,52 +231,5 @@
   }
   .head_content_in > div:last-child {
     display: flex;
-  }
-
-  /* 검색 폼 스타일 */
-  .head_search > div > div:first-child {
-    width: 100%;
-    /* width: 320px; */
-    height: 54px;
-  }
-
-  .head_search input {
-    width: 100%;
-    text-align: center;
-    height: 54px;
-    font-size: 22px;
-    border: 0;
-  }
-  .head_search input::placeholder {
-    font-size: 16px;
-  }
-  .head_search > div > div:first-child button {
-    position: absolute;
-    top: 50px;
-    right: 5px;
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
-    font-size: 20px;
-    margin-left: 20px;
-    border-radius: 20px;
-    border: 2px solid #999;
-  }
-  .head_search button:hover {
-  }
-  /* 검색 아이콘 스타일 */
-  .head_search > div > div:last-child {
-    position: absolute;
-    top: 0;
-    left: 0;
-    cursor: pointer;
-  }
-  .head_search > div > div:last-child > button {
-    margin: 0;
-    background-color: transparent;
-    border: 0;
-    width: 40px;
-    height: 40px;
-    box-shadow: none;
   }
 }

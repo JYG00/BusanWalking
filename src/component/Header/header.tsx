@@ -1,4 +1,4 @@
-import React, { Component, FormEvent, MouseEvent, ReactNode } from 'react';
+import React, { Component, MouseEvent, ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './header.module.css';
 import { BiSearch, BiMenu, BiLogIn, BiLogOut, BiUserPlus } from 'react-icons/bi';
@@ -69,6 +69,7 @@ class Header extends Component<HeaderProps, HeaderState> {
       }
     }
   }
+
   render(): ReactNode {
     // useRef
     const menuRef = React.createRef<HTMLDivElement>();
@@ -76,9 +77,15 @@ class Header extends Component<HeaderProps, HeaderState> {
     // 퀵메뉴 아이콘 클릭 시
     const onClick = () => {
       this.setState({ isDisplay: !this.state.isDisplay });
+      if (!this.state.isDisplay) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = 'auto';
+      }
     };
     // 마우스를 올리면 NavHover 메뉴 표시
     const showNavHover = (event: MouseEvent<HTMLDivElement>) => {
+      document.body.style.overflow = 'hidden';
       this.setState({
         ...this.state,
         headColor: 'white',
@@ -88,6 +95,7 @@ class Header extends Component<HeaderProps, HeaderState> {
     };
     // 영역 밖으로 나가면 NavHover 숨김
     const hideNavHover = (event: MouseEvent<HTMLDivElement>) => {
+      document.body.style.overflow = 'auto';
       if (this.props.isScroll) {
         this.setState({
           ...this.state,
@@ -116,7 +124,6 @@ class Header extends Component<HeaderProps, HeaderState> {
       >
         {/* 검색 */}
         <SearchForm isDisplay={this.state.isSearch} />
-
         {/* 헤더상단 */}
         {!this.props.isScroll && this.state.width > 1015 && (
           <div className={styles.head_in_top} onMouseEnter={hideNavHover}>
@@ -189,7 +196,7 @@ class Header extends Component<HeaderProps, HeaderState> {
         {/* 메뉴 아이콘 클릭 시 */}
         {/* 메뉴 설정 (1015px 이하)*/}
         {this.state.width < 1015 && this.state.isDisplay && (
-          <div>
+          <div style={{ width: '400px', height: '9999px' }}>
             <div className={styles.head_menu_content} ref={menuRef}>
               {this.state.isLogin ? (
                 <div className={styles.icon_bar}>
