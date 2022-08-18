@@ -1,9 +1,14 @@
-import React, { Component } from "react";
-import "./App.css";
-import Header from "./component/Header/header";
-import Main from "./component/Main/main";
-import Footer from "./component/Footer/footer";
-import axios from "axios";
+import React, { Component } from 'react';
+import './App.css';
+import Header from './component/Header/header';
+import Main from './component/Main/main';
+import Footer from './component/Footer/footer';
+import Tour from './component/Tour/tour';
+import Detail from './component/Detail/detail';
+import Search from './component/Search/search';
+import Notice from './component/Notice/notice';
+import axios from 'axios';
+import { Routes, Route } from 'react-router-dom';
 
 class App extends Component {
   state = {
@@ -25,8 +30,8 @@ class App extends Component {
   getData = async () => {
     await axios
       .get(
-        "http://apis.data.go.kr/6260000/WalkingService/getWalkingKr?serviceKey=hGeBuMFhtkE6bZ%2F2wNlO2vAP6MQevzRFM0I3Zz3ILWTCbLbTHuNHDKtwOwcOENS%2FvJknwdmrLYTYH8pNbyhWzA%3D%3D&numOfRows=37&pageNo=1&resultType=json",
-        { headers: { "Content-Type": "application/json" } }
+        'http://apis.data.go.kr/6260000/WalkingService/getWalkingKr?serviceKey=hGeBuMFhtkE6bZ%2F2wNlO2vAP6MQevzRFM0I3Zz3ILWTCbLbTHuNHDKtwOwcOENS%2FvJknwdmrLYTYH8pNbyhWzA%3D%3D&numOfRows=37&pageNo=1&resultType=json',
+        { headers: { 'Content-Type': 'application/json' } },
       )
       .then((res) => this.setState({ object: [res.data.getWalkingKr.item] }))
       .then(() => {
@@ -36,15 +41,21 @@ class App extends Component {
 
   componentDidMount() {
     // this.getData();
-    window.addEventListener("scroll", this.handleScroll);
-    return () => window.removeEventListener("scroll", this.handleScroll);
+    window.addEventListener('scroll', this.handleScroll);
+    return () => window.removeEventListener('scroll', this.handleScroll);
   }
 
   render() {
     return (
       <div className="container">
         <Header isScroll={this.state.isScroll} />
-        <Main />
+        <Routes>
+          <Route path="/" element={<Main />} />
+          <Route path="tour" element={<Tour />} />
+          <Route path="notice" element={<Notice />} />
+          <Route path="search" element={<Search />} />
+          <Route path="detail" element={<Detail />} />
+        </Routes>
         <Footer />
       </div>
     );

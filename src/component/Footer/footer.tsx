@@ -3,6 +3,7 @@ import { BiCopyright } from "react-icons/bi";
 import { FaFacebookF, FaYoutube, FaInstagram } from "react-icons/fa";
 import { MouseEvent, useState } from "react";
 
+// SNS 아이콘 스타일
 const IconStyle = {
   cursor: "pointer",
   padding: "20px 20px 20px 20px",
@@ -12,7 +13,7 @@ const IconStyle = {
   boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
   opacity: "0.8",
 };
-// 아이콘 투명도 설정
+// SNS 아이콘 투명도 설정
 interface IconState {
   youtube: string;
   facebook: string;
@@ -26,6 +27,7 @@ export default function Footer() {
     youtube: "0.8",
   });
 
+  // SNS 아이콘 Hover에 따라 투명도 적용
   const mouseOver = (e: MouseEvent) => {
     switch (e.currentTarget.getAttribute("values")) {
       case "youtube":
@@ -49,8 +51,6 @@ export default function Footer() {
   return (
     <div className={styles.container}>
       <div>
-        {/* 로고 */}
-        <div className={styles.logo}>로고</div>
         {/* 기타 */}
         <div className={styles.company_desc}>
           {/* 회사 주소 */}
@@ -69,49 +69,49 @@ export default function Footer() {
               COPYRIGHT <BiCopyright /> BUSANWALKING ALL RIGHT REVERSED
             </p>
           </div>
-          {/* SNS 아이콘 */}
-          <div className={styles.company_sns}>
-            {/* 인스타 */}
-            <FaInstagram
-              style={{
-                ...IconStyle,
-                opacity: iconState.instagram,
-                background:
-                  "radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%)",
-                fill: "white",
-              }}
-              size={30}
-              values="instagram"
-              onMouseEnter={mouseOver}
-              onMouseLeave={mouseLeave}
-            />
-            {/* 페북 */}
-            <FaFacebookF
-              style={{
-                ...IconStyle,
-                opacity: iconState.facebook,
-                backgroundColor: "#4267B2",
-                fill: "white",
-              }}
-              size={30}
-              values="facebook"
-              onMouseEnter={mouseOver}
-              onMouseLeave={mouseLeave}
-            />
-            {/* 유튜브 */}
-            <FaYoutube
-              style={{
-                ...IconStyle,
-                opacity: iconState.youtube,
-                backgroundColor: "white",
-                fill: "#ff0000",
-              }}
-              values="youtube"
-              onMouseEnter={mouseOver}
-              onMouseLeave={mouseLeave}
-              size={30}
-            />
-          </div>
+        </div>
+        {/* SNS 아이콘 */}
+        <div className={styles.company_sns}>
+          {/* 인스타 */}
+          <FaInstagram
+            style={{
+              ...IconStyle,
+              opacity: iconState.instagram,
+              background:
+                "radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%)",
+              fill: "white",
+            }}
+            size={30}
+            values="instagram"
+            onMouseEnter={mouseOver}
+            onMouseLeave={mouseLeave}
+          />
+          {/* 페북 */}
+          <FaFacebookF
+            style={{
+              ...IconStyle,
+              opacity: iconState.facebook,
+              backgroundColor: "#4267B2",
+              fill: "white",
+            }}
+            size={30}
+            values="facebook"
+            onMouseEnter={mouseOver}
+            onMouseLeave={mouseLeave}
+          />
+          {/* 유튜브 */}
+          <FaYoutube
+            style={{
+              ...IconStyle,
+              opacity: iconState.youtube,
+              backgroundColor: "white",
+              fill: "#ff0000",
+            }}
+            values="youtube"
+            onMouseEnter={mouseOver}
+            onMouseLeave={mouseLeave}
+            size={30}
+          />
         </div>
       </div>
     </div>

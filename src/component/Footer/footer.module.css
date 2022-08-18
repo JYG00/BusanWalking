@@ -11,12 +11,7 @@
   justify-content: space-around;
   align-items: center;
 }
-/* 로고 */
-.logo {
-  width: 200px;
-  min-width: 160px;
-  height: 100px;
-  background-color: purple;
+.company_desc {
 }
 /* 이메일 / 대표 전화 / FAX */
 .company_email {
@@ -32,8 +27,7 @@
 .company_email p:last-child::after {
   display: none;
 }
-.company_sns > link:hover {
-  opacity: 1;
+.company_sns {
 }
 @media (max-width: 1015px) {
   /* 이메일 / 대표 전화 / FAX */
