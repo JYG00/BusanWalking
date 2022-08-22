@@ -7,6 +7,7 @@ import Tour from './component/Tour/tour';
 import Detail from './component/Detail/detail';
 import Search from './component/Search/search';
 import Notice from './component/Notice/notice';
+import SendEmail from './component/Email/email';
 import axios from 'axios';
 import { Routes, Route } from 'react-router-dom';
 
@@ -40,7 +41,7 @@ class App extends Component {
   };
 
   componentDidMount() {
-    // this.getData();
+    this.getData();
     window.addEventListener('scroll', this.handleScroll);
     return () => window.removeEventListener('scroll', this.handleScroll);
   }
@@ -55,6 +56,7 @@ class App extends Component {
           <Route path="notice" element={<Notice />} />
           <Route path="search" element={<Search />} />
           <Route path="detail" element={<Detail />} />
+          <Route path="email" element={<SendEmail />} />
         </Routes>
         <Footer />
       </div>

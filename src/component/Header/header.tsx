@@ -13,7 +13,7 @@ interface HeaderProps {
 }
 // Header state
 interface HeaderState {
-  isDisplay: boolean;
+  isQuickDisplay: boolean;
   isHover: boolean;
   isSearch: number;
   width: number;
@@ -27,7 +27,7 @@ interface HeaderState {
 // 헤더
 function Header(props: HeaderProps) {
   const [state, setState] = useState<HeaderState>({
-    isDisplay: false,
+    isQuickDisplay: false,
     isLogin: false,
     isHover: false,
     isSearch: 0,
@@ -40,9 +40,6 @@ function Header(props: HeaderProps) {
 
   const updateDimensions = () => {
     setState({ ...state, width: window.innerWidth });
-    if (state.width > 1015) {
-      setState({ ...state, isDisplay: false });
-    }
   };
 
   useEffect(() => {
@@ -76,26 +73,32 @@ function Header(props: HeaderProps) {
 
   const location = useLocation();
 
+  // 스크린의 넓이에 따라서 
+  // 경로 변경 시 호버 창 또는 퀵 창을 닫습니다
   useEffect(() => {
     if (state.width > 1015) {
       hideNavHover();
     } else {
-      callQuickMenu();
+      if(location.pathname!=='/'){
+        callQuickMenu();
+      }
     }
   }, [location]);
 
+useEffect(()=>{
+  if (state.isQuickDisplay) {
+    document.body.style.overflow = 'hidden';
+  } else {
+    document.body.style.overflow = 'auto';
+  }
+},[state.isQuickDisplay])
   // useRef
   const menuRef = useRef<HTMLDivElement>(null);
   const headRef = useRef<HTMLDivElement>(null);
 
   // 퀵메뉴 아이콘 클릭 시
   const callQuickMenu = () => {
-    setState({ ...state, isDisplay: !state.isDisplay });
-    if (state.isDisplay) {
-      document.body.style.overflow = 'auto';
-    } else {
-      document.body.style.overflow = 'hidden';
-    }
+    setState({ ...state, isQuickDisplay: !state.isQuickDisplay });
   };
 
   // 마우스를 올리면 NavHover 메뉴 표시
@@ -194,7 +197,7 @@ function Header(props: HeaderProps) {
             </div>
             {/* 참여마당 */}
             <div onMouseEnter={showNavHover} onMouseLeave={hideNavHover} id="참여마당">
-              <Link to="notice">
+              <Link to="notice" state={{key:'이용문의'}}>
                 <p>참여마당</p>
               </Link>
               {state.keyWord === '참여마당' && <HoverContent keyWord={state.keyWord} isScroll={props.isScroll} isHover={state.isHover} />}
@@ -216,7 +219,7 @@ function Header(props: HeaderProps) {
       </div>
       {/* 메뉴 아이콘 클릭 시 */}
       {/* 메뉴 설정 (1015px 이하)*/}
-      {state.width < 1015 && state.isDisplay && (
+      {state.width < 1015 && state.isQuickDisplay && (
         <div style={{ width: '400px', height: '9999px' }}>
           <div className={styles.head_menu_content} ref={menuRef}>
             {state.isLogin ? (

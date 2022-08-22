@@ -50,6 +50,10 @@ export default function HoverContent(props: HoverContentProps) {
   const loadNoticePage = (e: MouseEvent) => {
     navigate('/notice', { state: { key: e.currentTarget.id } });
   };
+  // Key와 함께 Email-Page 로 이동
+  const loadEmailPage = (e:MouseEvent) => {
+    navigate('/email', { state: { key: e.currentTarget.id } });
+  }
 
   return (
     <div className={styles.head_in_hover} style={{ top: state.positionTop }} ref={hoverRef}>
@@ -99,11 +103,11 @@ export default function HoverContent(props: HoverContentProps) {
               case '문의': {
                 return (
                   <div className={styles.head_hover_container}>
-                    <div>
+                    <div onClick={loadEmailPage} id="이용문의">
                       <div></div>
                       <p>이용문의</p>
                     </div>
-                    <div>
+                    <div onClick={loadEmailPage} id="관광불편신고">
                       <div></div>
                       <p>관광불편신고</p>
                     </div>
