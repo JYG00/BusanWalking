@@ -20,7 +20,7 @@ export default function Search() {
   return (
     <div className={styles.container}>
       {/* 슬로건 바 */}
-      <div>{key}에 대한 검색결과</div>
+      <div className={styles.slogan_bar}>{key}에 대한 검색결과</div>
       {/* 게시판 */}
       <div className={styles.notice_table}>
         <div className={styles.table_head}>

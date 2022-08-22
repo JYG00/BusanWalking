@@ -1,7 +1,7 @@
-import MainCarousel from "./main_component/main_carousel";
-import MainCategoryTable from "./main_component/main_category_table";
-import MainNotice from "./main_component/main_notice";
-import styles from "./main.module.css";
+import MainCarousel from './main_component/main_carousel';
+import MainCategoryTable from './main_component/main_category_table';
+import MainNotice from './main_component/main_notice';
+import styles from './main.module.css';
 
 export default function Main() {
   return (

@@ -1,19 +1,48 @@
+import { MouseEvent, useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { locationType } from '../Notice/notice';
 import styles from './tour.module.css';
 
 export default function Tour() {
+  const location = useLocation() as locationType;
+  const [state, setState] = useState<string>(location.state.key);
+
+  const changeContent = (event: MouseEvent) => {
+    const tableHead = event.currentTarget.getAttribute('id');
+
+    if (tableHead === null) {
+      alert('typeError');
+    } else {
+      setState(tableHead);
+    }
+  };
+
+  // location 호출 시 setState
+  useEffect(() => {
+    setState(location.state.key);
+  }, [location]);
+
   return (
     <div className={styles.container}>
-      {/* 슬로건 바 */}
+      {/* 상태표시바 */}
       <div className={styles.slogan_bar}>
-        <h2>SLOGAN</h2>
+        <h2>{state}</h2>
       </div>
       {/* 여행지 테이블 */}
       <div className={styles.tour_table}>
         <div className={styles.table_head}>
-          <p>전체관광지</p>
-          <p>숲길</p>
-          <p>해안길</p>
-          <p>도심길</p>
+          <p id="전체관광지" onClick={changeContent}>
+            전체관광지
+          </p>
+          <p id="숲길" onClick={changeContent}>
+            숲길
+          </p>
+          <p id="해안길" onClick={changeContent}>
+            해안길
+          </p>
+          <p id="도심길" onClick={changeContent}>
+            도심길
+          </p>
         </div>
         <div className={styles.table_body}>
           <div>

@@ -12,6 +12,7 @@ interface SearchFormState {
   search_style: Object;
 }
 
+// 검색창이 나타나면 나머지 부분은 어둡게
 const onSearchStyle = { display: 'flex', boxShadow: 'rgba(0, 0, 0, 0.8) 0 0 0 9999px', zIndex: '100' };
 
 const offSearchStyle = { display: 'none', boxShadow: 'none', zIndex: '-1' };
