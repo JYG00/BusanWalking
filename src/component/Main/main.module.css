@@ -1,0 +1,19 @@
+.container {
+  width: 100%;
+  z-index: 0;
+}
+.main_top {
+  display: flex;
+  width: 100%;
+  background-color: rgb(253, 213, 184);
+}
+.main_mid {
+  display: flex;
+  width: 100%;
+  background-color: rgb(250, 177, 125);
+}
+.main_bottom {
+  display: flex;
+  width: 100%;
+  background-color: rgb(255, 158, 88);
+}
