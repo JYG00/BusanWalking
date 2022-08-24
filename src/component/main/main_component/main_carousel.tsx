@@ -124,7 +124,7 @@ export default function MainCarousel() {
               }
             }}
           >
-            <SlideImg subTitle={tourArr[15].description} place={tourArr[15].place} mainImgNormal={tourArr[15].mainImgNormal} mainImgSmall={tourArr[15].mainImgSmall} mainTitle={tourArr[15].subTitle} />
+            <SlideImg subTitle={tourArr[14].description} place={tourArr[14].place} mainImgNormal={tourArr[14].mainImgNormal} mainImgSmall={tourArr[14].mainImgSmall} mainTitle={tourArr[14].subTitle} />
           </div>
           <div
             ref={(elem: HTMLDivElement) => {
@@ -170,7 +170,7 @@ export default function MainCarousel() {
               }
             }}
           >
-            <SlideImg subTitle={tourArr[15].description} place={tourArr[15].place} mainImgNormal={tourArr[15].mainImgNormal} mainTitle={tourArr[15].subTitle} mainImgSmall={tourArr[15].mainImgSmall} />
+            <SlideImg subTitle={tourArr[14].description} place={tourArr[14].place} mainImgNormal={tourArr[14].mainImgNormal} mainTitle={tourArr[14].subTitle} mainImgSmall={tourArr[14].mainImgSmall} />
           </div>
           <div
             ref={(elem: HTMLDivElement) => {
