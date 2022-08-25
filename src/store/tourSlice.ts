@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export interface tourState {
+export interface tourForm {
   mainImgNormal: string;
   mainImgSmall: string;
   place: string;
@@ -12,7 +12,7 @@ export interface tourState {
   disablePeople?: string;
 }
 
-const initalState: Array<tourState> = [
+const initalState: Array<tourForm> = [
   {
     mainImgNormal: '',
     mainImgSmall: '',
@@ -29,7 +29,7 @@ export const tourSlice = createSlice({
   name: 'tour',
   initialState: initalState,
   reducers: {
-    ADD: (state: Array<tourState>, action: PayloadAction<Array<tourState>>) => {
+    ADD: (state: Array<tourForm>, action: PayloadAction<Array<tourForm>>) => {
       // 값이 두번 들어가는 것을 방지하기 위함
       if (state.length > 1) {
         return;
@@ -45,6 +45,6 @@ export const tourSlice = createSlice({
 });
 export const { ADD, LOAD } = tourSlice.actions;
 
-export const selectTour = (state: tourState) => state;
+export const selectTour = (state: tourForm) => state;
 
 export default tourSlice.reducer;

@@ -7,15 +7,12 @@ import HoverContent from './header_component/hover_content';
 import MenuContent from './header_component/quick_menu_content';
 import SearchForm from './header_component/search_form';
 
-// 스크롤된 상태에 따라서 헤더 색깔 적용
-interface HeaderProps {
-  isScroll: boolean;
-}
 // Header state
 interface HeaderState {
   isQuickDisplay: boolean;
   isHover: boolean;
   isSearch: number;
+  scrollY: number;
   width: number;
   keyWord: string;
   isLogin: boolean;
@@ -25,11 +22,12 @@ interface HeaderState {
 }
 
 // 헤더
-function Header(props: HeaderProps) {
+function Header() {
   const [state, setState] = useState<HeaderState>({
     isQuickDisplay: false,
     isLogin: false,
     isHover: false,
+    scrollY: 0,
     isSearch: 0,
     width: window.innerWidth,
     offsetY: 0,
@@ -42,15 +40,28 @@ function Header(props: HeaderProps) {
     setState({ ...state, width: window.innerWidth });
   };
 
+  const updateScroll = () => {
+    if (window.scrollY > 0) {
+      setState({ ...state, scrollY: window.scrollY });
+    } else {
+      setState({ ...state, scrollY: 0 });
+    }
+  };
+
   useEffect(() => {
     window.addEventListener('resize', updateDimensions);
     return () => window.removeEventListener('resize', updateDimensions);
-  }, []);
+  }, [updateDimensions]);
+
+  useEffect(() => {
+    window.addEventListener('scroll', updateScroll);
+    return () => window.removeEventListener('scroll', updateScroll);
+  }, [updateScroll]);
 
   // 스크롤 상태에 따라서 헤더 스타일 적용
   useEffect(() => {
     // 마우스 커서 여부에 따라 스타일 적용
-    if (props.isScroll) {
+    if (state.scrollY > 0) {
       // state의 keyword는 hover 여부를 나타냅니다
       // state의 keyword가 공백이면 hover 상태
       if (state.keyWord === '') {
@@ -69,29 +80,29 @@ function Header(props: HeaderProps) {
         });
       }
     }
-  }, [props.isScroll]);
+  }, [state.scrollY]);
 
   const location = useLocation();
 
-  // 스크린의 넓이에 따라서 
+  // 스크린의 넓이에 따라서
   // 경로 변경 시 호버 창 또는 퀵 창을 닫습니다
   useEffect(() => {
     if (state.width > 1015) {
       hideNavHover();
     } else {
-      if(location.pathname!=='/'){
+      if (location.pathname !== '/') {
         callQuickMenu();
       }
     }
-  }, [location]);
+  }, [location.pathname]);
 
-useEffect(()=>{
-  if (state.isQuickDisplay) {
-    document.body.style.overflow = 'hidden';
-  } else {
-    document.body.style.overflow = 'auto';
-  }
-},[state.isQuickDisplay])
+  useEffect(() => {
+    if (state.isQuickDisplay) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  }, [state.isQuickDisplay]);
   // useRef
   const menuRef = useRef<HTMLDivElement>(null);
   const headRef = useRef<HTMLDivElement>(null);
@@ -118,7 +129,7 @@ useEffect(()=>{
   const hideNavHover = () => {
     // off-modal : 스크롤 허용
     document.body.style.overflow = 'auto';
-    if (props.isScroll) {
+    if (state.scrollY) {
       setState({
         ...state,
         headColor: 'white',
@@ -149,7 +160,7 @@ useEffect(()=>{
       {/* 검색 */}
       <SearchForm isDisplay={state.isSearch} />
       {/* 헤더상단 */}
-      {!props.isScroll && state.width > 1015 && (
+      {state.scrollY === 0 && state.width > 1015 && (
         <div className={styles.head_in_top} onMouseEnter={hideNavHover}>
           {/* 헤더 상단 콘텐츠 */}
           <div className={styles.head_content_top}>
@@ -181,9 +192,7 @@ useEffect(()=>{
         </div>
         {/* 로고 */}
         <div className={styles.head_logo} onMouseEnter={hideNavHover} id="logo">
-          <Link to="/" style={{ width: '100%', height: '100%', backgroundColor: '#fff' }}>
-            로고
-          </Link>
+          <Link to="/"></Link>
         </div>
         {/* 헤더 컨텐츠 */}
         <div className={styles.head_content}>
@@ -193,19 +202,19 @@ useEffect(()=>{
               <Link to="/tour" state={{ key: '전체관광지' }}>
                 <p>관광지</p>
               </Link>
-              {state.keyWord === '관광지' && <HoverContent keyWord={state.keyWord} isScroll={props.isScroll} isHover={state.isHover} />}
+              {state.keyWord === '관광지' && <HoverContent keyWord={state.keyWord} scrollY={state.scrollY} isHover={state.isHover} />}
             </div>
             {/* 참여마당 */}
             <div onMouseEnter={showNavHover} onMouseLeave={hideNavHover} id="참여마당">
-              <Link to="notice" state={{key:'이용문의'}}>
+              <Link to="notice" state={{ key: '이용문의' }}>
                 <p>참여마당</p>
               </Link>
-              {state.keyWord === '참여마당' && <HoverContent keyWord={state.keyWord} isScroll={props.isScroll} isHover={state.isHover} />}
+              {state.keyWord === '참여마당' && <HoverContent keyWord={state.keyWord} scrollY={state.scrollY} isHover={state.isHover} />}
             </div>
             {/* 문의 */}
             <div onMouseEnter={showNavHover} onMouseLeave={hideNavHover} id="문의">
               <p>문의</p>
-              {state.keyWord === '문의' && <HoverContent keyWord={state.keyWord} isScroll={props.isScroll} isHover={state.isHover} />}
+              {state.keyWord === '문의' && <HoverContent keyWord={state.keyWord} scrollY={state.scrollY} isHover={state.isHover} />}
             </div>
             {/* 검색 */}
             <div style={{ cursor: 'pointer' }} onMouseEnter={hideNavHover} onClick={() => setState({ ...state, isSearch: state.isSearch + 1 })}>

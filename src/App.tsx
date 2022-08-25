@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import Header from './component/Header/header';
 import Main from './component/Main/main';
@@ -10,24 +10,22 @@ import Notice from './component/Notice/notice';
 import SendEmail from './component/Email/email';
 import axios from 'axios';
 import { Routes, Route } from 'react-router-dom';
-import { ADD, tourState } from './store/tourSlice';
+import { ADD, tourForm } from './store/tourSlice';
 import { useDispatch } from 'react-redux';
 
 interface AppState {
-  isScroll: boolean;
   isRender: boolean;
 }
 
 function App() {
   const [state, setState] = useState<AppState>({
-    isScroll: false,
     isRender: false,
   });
 
   const dispatch = useDispatch();
 
   const getData = async () => {
-    let tourResultArr: Array<tourState> = [];
+    let tourResultArr: Array<tourForm> = [];
     await axios
       .get(
         '//apis.data.go.kr/6260000/WalkingService/getWalkingKr?serviceKey=hGeBuMFhtkE6bZ%2F2wNlO2vAP6MQevzRFM0I3Zz3ILWTCbLbTHuNHDKtwOwcOENS%2FvJknwdmrLYTYH8pNbyhWzA%3D%3D&numOfRows=37&pageNo=1&resultType=json',
@@ -53,26 +51,31 @@ function App() {
       });
   };
 
-  const handleScroll = () => {
-    if (window.scrollY > 0) {
-      setState({ ...state, isScroll: true });
-    } else if (window.scrollY === 0) {
-      setState({
-        ...state,
-        isScroll: false,
-      });
-    }
-  };
-
   useEffect(() => {
     getData();
   }, []);
+
+  // const handleScroll = () => {
+  //   console.log('hi');
+  //   if (window.scrollY > 0) {
+  //     dispatch(SCROLL(true));
+  //   } else {
+  //     dispatch(SCROLL(false));
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   window.addEventListener('scroll', handleScroll);
+  //   return () => {
+  //     window.removeEventListener('scroll', handleScroll);
+  //   };
+  // }, [window.scrollY]);
 
   return (
     <div className="container">
       {state.isRender && (
         <div>
-          <Header isScroll={state.isScroll} />
+          <Header />
           <Routes>
             <Route path="/" element={<Main />} />
             <Route path="tour" element={<Tour />} />

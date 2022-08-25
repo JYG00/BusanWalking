@@ -5,7 +5,7 @@ import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from '../../../store/store';
-import { tourState } from '../../../store/tourSlice';
+import { tourForm } from '../../../store/tourSlice';
 import styles from './main_carousel.module.css';
 
 interface SlideProps {
@@ -23,23 +23,10 @@ interface SlideState {
 export default function MainCarousel() {
   const [SlideIdx, setSlideIdx] = useState<number>(1);
   const SlideRef = useRef<null | HTMLDivElement[]>([]);
-  let tourArr: Array<tourState> = [
-    {
-      mainImgNormal: '',
-      mainImgSmall: '',
-      place: '',
-      title: '',
-      subTitle: '',
-      description: '',
-      category: '',
-      traffic: '',
-    },
-  ];
+  let tourArr: Array<tourForm> = [];
 
   useSelector((state: RootState) => {
-    state.map((content) => tourArr.push(content));
-    tourArr.splice(0, 1);
-    console.log();
+    state.tour.map((content) => tourArr.push(content));
   });
 
   useEffect(() => {
@@ -161,7 +148,7 @@ export default function MainCarousel() {
               }
             }}
           >
-            <SlideImg subTitle={tourArr[16].description} place={tourArr[16].place} mainImgNormal={tourArr[16].mainImgNormal} mainImgSmall={tourArr[16].mainImgSmall} mainTitle={tourArr[16].subTitle} />
+            <SlideImg subTitle={tourArr[5].description} place={tourArr[5].place} mainImgNormal={tourArr[5].mainImgNormal} mainImgSmall={tourArr[5].mainImgSmall} mainTitle={tourArr[5].subTitle} />
           </div>
           <div
             ref={(elem: HTMLDivElement) => {

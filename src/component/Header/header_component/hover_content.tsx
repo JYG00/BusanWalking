@@ -4,7 +4,7 @@ import styles from './hover_content.module.css';
 
 interface HoverContentProps {
   keyWord: string;
-  isScroll: boolean;
+  scrollY: number;
   isHover: boolean;
 }
 
@@ -21,12 +21,12 @@ export default function HoverContent(props: HoverContentProps) {
   const hoverRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (props.isScroll) {
+    if (props.scrollY > 0) {
       setState({ positionTop: '100px' });
     } else {
       setState({ positionTop: '140px' });
     }
-  }, [props.isScroll]);
+  }, [props.scrollY]);
 
   useEffect(() => {
     if (props.isHover) {
@@ -51,9 +51,9 @@ export default function HoverContent(props: HoverContentProps) {
     navigate('/notice', { state: { key: e.currentTarget.id } });
   };
   // Key와 함께 Email-Page 로 이동
-  const loadEmailPage = (e:MouseEvent) => {
+  const loadEmailPage = (e: MouseEvent) => {
     navigate('/email', { state: { key: e.currentTarget.id } });
-  }
+  };
 
   return (
     <div className={styles.head_in_hover} style={{ top: state.positionTop }} ref={hoverRef}>

@@ -1,33 +1,36 @@
 // Main Category Table Component
 import { MouseEvent, useEffect, useRef, useState } from 'react';
+import { tourForm } from '../../../store/tourSlice';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store/store';
+// style
 import styles from './main_category_table.module.css';
 import forestCartoonImage from '../../../image/forest_cartoon.jpg';
 import cityCartoonImage from '../../../image/city_cartoon.jpg';
 import coastCartoonImage from '../../../image/coast_cartoon.jpg';
-import { tourState } from '../../../store/tourSlice';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../store/store';
+import { BiCategory } from 'react-icons/bi';
 
 interface ctg_state {
   keyword: string;
   title: string;
-  contentArr: Array<tourState>;
+  contentArr: Array<tourForm>;
 }
 
 export default function MainCategoryTable() {
-  let tourArr: Array<tourState> = [];
+  // 여행지 정보를 담을 배열
+  let tourArr: Array<tourForm> = [];
   // 초기값은 숲길 카테고리
-  let initalArr: Array<tourState> = [];
+  let initalArr: Array<tourForm> = [];
 
   // 데이터를 가져오고 초기값 설정
   useSelector((state: RootState) => {
-    state.map((content) => tourArr.push(content));
+    state.tour.map((content) => tourArr.push(content));
     tourArr.filter((content) => content.category.includes('숲길')).map((result) => initalArr.push(result));
   });
 
   const [ctgState, setCtgState] = useState<ctg_state>({
     keyword: '숲길',
-    title: '산속의 향기와 함께',
+    title: '숲길 타이틀',
     contentArr: initalArr,
   });
 
@@ -37,30 +40,40 @@ export default function MainCategoryTable() {
     setRenderSwitch(true);
   }, [ctgState]);
 
+  const showCategory = () => {
+    if (categoryRef.current !== null) {
+      if (categoryRef.current.style.display === 'flex') {
+        categoryRef.current.style.display = 'none';
+      } else {
+        categoryRef.current.style.display = 'flex';
+      }
+    }
+  };
+
   //  테이블 헤드 클릭
   const showTable = (e: MouseEvent<HTMLDivElement>) => {
     setRenderSwitch(false);
     switch (e.currentTarget.id) {
       case 'forest':
-        let forestArr: Array<tourState> = [];
+        let forestArr: Array<tourForm> = [];
         tourArr.filter((content) => content.category.includes('숲길')).map((result) => forestArr.push(result));
         setCtgState({
           keyword: '숲길',
-          title: '산속의 향기와 함께',
+          title: '숲길 타이틀',
           contentArr: forestArr,
         });
         break;
       case 'coast':
-        let coastArr: Array<tourState> = [];
+        let coastArr: Array<tourForm> = [];
         tourArr.filter((content) => content.category.includes('해안길')).map((result) => coastArr.push(result));
         setCtgState({
           keyword: '해안길',
-          title: '시원한 바닷바람을 맞으며',
+          title: '해안길 타이틀',
           contentArr: coastArr,
         });
         break;
       case 'city':
-        let cityArr: Array<tourState> = [];
+        let cityArr: Array<tourForm> = [];
         tourArr.filter((content) => content.category.includes('도심길')).map((result) => cityArr.push(result));
         setCtgState({
           keyword: '도심길',
@@ -86,7 +99,9 @@ export default function MainCategoryTable() {
             {/* 숲길, 해안길, 도심길 */}
             <div>
               <div className={styles.category}>
-                <div className={styles.category_button}>카테고리</div>
+                <div className={styles.category_button} onClick={showCategory}>
+                  <BiCategory size={50} />
+                </div>
                 <div className={styles.table_head} ref={categoryRef}>
                   <div id="forest" onClick={showTable}>
                     <img src={forestCartoonImage} alt="ForestIcon" />
@@ -106,6 +121,7 @@ export default function MainCategoryTable() {
             {/* 카테고리 내용 */}
             <div className={styles.table_content}>
               <p className={styles.banner_title}>{ctgState.title}</p>
+              <p className={styles.banner_keyword}>{ctgState.keyword}</p>
               <div className={styles.content}>
                 <div style={{ backgroundImage: `url(${ctgState.contentArr[0].mainImgSmall})`, backgroundSize: 'cover' }}>
                   <p>{ctgState.contentArr[0].place}</p>
