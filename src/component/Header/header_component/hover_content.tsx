@@ -71,15 +71,15 @@ export default function HoverContent(props: HoverContentProps) {
                       <div></div>
                       <p>전체관광지</p>
                     </div>
-                    <div onClick={loadTourPage} id={'숲길'}>
+                    <div onClick={loadTourPage} id={'forest'}>
                       <div></div>
                       <p>숲길</p>
                     </div>
-                    <div onClick={loadTourPage} id={'해안길'}>
+                    <div onClick={loadTourPage} id={'coast'}>
                       <div></div>
                       <p>해안길</p>
                     </div>
-                    <div onClick={loadTourPage} id={'도심길'}>
+                    <div onClick={loadTourPage} id={'city'}>
                       <div></div>
                       <p>도심길</p>
                     </div>

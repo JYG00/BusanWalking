@@ -21,17 +21,31 @@ export default function MenuContent(props: MenuContentProps) {
   const navigate = useNavigate();
   const loadPage = (event: MouseEvent) => {
     let key = event.currentTarget.id;
-    if(key === '전체관광지' || key === '숲길' || key==='해안길'||key==='도심길'){
-      navigate('/tour', { state: { key: key } });
-    }else if(key === '명소공유' || key==='Q&A'){
+    if (key === '전체관광지' || key === '숲길' || key === '해안길' || key === '도심길') {
+      switch (key) {
+        case '전체관광지':
+          navigate('/tour', { state: { key: 'all' } });
+          break;
+        case '숲길':
+          navigate('/tour', { state: { key: 'forest' } });
+          break;
+        case '해안길':
+          navigate('/tour', { state: { key: 'coast' } });
+          break;
+        case '도심길':
+          navigate('/tour', { state: { key: 'city' } });
+          break;
+        default:
+          break;
+      }
+    } else if (key === '명소공유' || key === 'Q&A') {
       navigate('/notice', { state: { key: key } });
-    }else{
-      navigate('/email',{state:{key:key}});
+    } else {
+      navigate('/email', { state: { key: key } });
     }
-    
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     if (contentRef.current !== null) {
       if (state.isDisplay) {
         contentRef.current!.style.display = 'block';
@@ -39,8 +53,7 @@ export default function MenuContent(props: MenuContentProps) {
         contentRef.current!.style.display = 'none';
       }
     }
-  },[state])
-  
+  }, [state]);
 
   return (
     <div className={styles.container}>

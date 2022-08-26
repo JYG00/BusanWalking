@@ -90,11 +90,13 @@ function Header() {
     if (state.width > 1015) {
       hideNavHover();
     } else {
-      if (location.pathname !== '/') {
+      // 스크린 넓이가 1015px 이하일 때
+      // 메뉴창이 켜져있다면 메뉴창을 끕니다
+      if (menuRef.current) {
         callQuickMenu();
       }
     }
-  }, [location.pathname]);
+  }, [location]);
 
   useEffect(() => {
     if (state.isQuickDisplay) {
