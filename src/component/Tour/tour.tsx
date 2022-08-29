@@ -1,9 +1,10 @@
-import { MouseEvent, MouseEventHandler, useEffect, useRef, useState } from 'react';
+import { MouseEvent, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { RootState } from '../../store/store';
 import { tourForm } from '../../store/tourSlice';
 import { locationType } from '../Notice/notice';
+import { MdPlace } from 'react-icons/md';
 import styles from './tour.module.css';
 
 interface tourState {
@@ -16,10 +17,11 @@ export default function Tour() {
   const location = useLocation() as locationType;
   const tourArr: Array<tourForm> = [];
   const [state, setState] = useState<tourState>({ contentArr: tourArr, key: '전체관광지', pageNumber: 1 });
+  const contentHeadRef = useRef<null | HTMLParagraphElement[]>([]);
   const contentRef = useRef<HTMLDivElement>(null);
   const pageButtonRef = useRef<null | HTMLParagraphElement[]>([]);
 
-  let pageBtnIdx = 0;
+  const navigate = useNavigate();
 
   useSelector((state: RootState) => {
     state.tour.map((content) => tourArr.push(content));
@@ -52,7 +54,6 @@ export default function Tour() {
   };
 
   useEffect(() => {
-    console.log(location.state.key);
     changeCategory(location.state.key);
   }, [location]);
 
@@ -60,12 +61,34 @@ export default function Tour() {
     if (contentRef.current !== null && pageButtonRef.current !== null) {
       // (페이지 번호 *  -(한 페이지 크기) )
       contentRef.current.style.top = `${(state.pageNumber - 1) * -1350}px`;
-      pageButtonRef.current.map((content) => content !== null && (content.style.backgroundColor = 'red'));
+      pageButtonRef.current.map((content) => content !== null && (content.className = `${styles.button_off}`));
       if (pageButtonRef.current[state.pageNumber] !== null) {
-        pageButtonRef.current[state.pageNumber].style.backgroundColor = '#f3f3f3';
+        pageButtonRef.current[state.pageNumber].className = `${styles.button_on}`;
       }
     }
   }, [state.pageNumber]);
+
+  useEffect(() => {
+    if (contentHeadRef.current !== null) {
+      contentHeadRef.current.map((content) => content !== null && (content.className = `${styles.table_head_off}`));
+      switch (state.key) {
+        case '전체관광지':
+          contentHeadRef.current[0].className = `${styles.table_head_on}`;
+          break;
+        case '숲길':
+          contentHeadRef.current[1].className = `${styles.table_head_on}`;
+          break;
+        case '해안길':
+          contentHeadRef.current[2].className = `${styles.table_head_on}`;
+          break;
+        case '도심길':
+          contentHeadRef.current[3].className = `${styles.table_head_on}`;
+          break;
+        default:
+          break;
+      }
+    }
+  }, [state.key]);
 
   // 테이블 헤드 클릭 시 카테고리 변경
   const changeContent = (event: MouseEvent) => {
@@ -75,32 +98,81 @@ export default function Tour() {
     }
   };
 
+  const showDetail = (e: MouseEvent) => {
+    navigate('/detail', { state: { key: e.currentTarget.id } });
+  };
+
   return (
     <div className={styles.container}>
       {/* 상태표시바 */}
       <div className={styles.slogan_bar}>
+        <div></div>
         <h2>{state?.key}</h2>
       </div>
       {/* 여행지 테이블 */}
       <div className={styles.tour_table}>
         <div className={styles.table_head}>
-          <p id="all" onClick={changeContent}>
+          <p
+            id="all"
+            onClick={changeContent}
+            ref={(elem: HTMLParagraphElement) => {
+              if (contentHeadRef.current !== null) {
+                contentHeadRef.current[0] = elem;
+              }
+            }}
+          >
             전체관광지
           </p>
-          <p id="forest" onClick={changeContent}>
+          <p
+            id="forest"
+            onClick={changeContent}
+            ref={(elem: HTMLParagraphElement) => {
+              if (contentHeadRef.current !== null) {
+                contentHeadRef.current[1] = elem;
+              }
+            }}
+          >
             숲길
           </p>
-          <p id="coast" onClick={changeContent}>
+          <p
+            id="coast"
+            onClick={changeContent}
+            ref={(elem: HTMLParagraphElement) => {
+              if (contentHeadRef.current !== null) {
+                contentHeadRef.current[2] = elem;
+              }
+            }}
+          >
             해안길
           </p>
-          <p id="city" onClick={changeContent}>
+          <p
+            id="city"
+            onClick={changeContent}
+            ref={(elem: HTMLParagraphElement) => {
+              if (contentHeadRef.current !== null) {
+                contentHeadRef.current[3] = elem;
+              }
+            }}
+          >
             도심길
           </p>
         </div>
         <div className={styles.table_body}>
           <div ref={contentRef}>
             {state.contentArr.map((content) => (
-              <div key={tourArr.indexOf(content)} className={styles.content} style={{ backgroundImage: `url(${content.mainImgSmall})`, backgroundSize: 'cover' }}></div>
+              <div key={tourArr.indexOf(content)} className={styles.content}>
+                {/* 관광지 사진 */}
+                <div>
+                  <img src={content.mainImgSmall} alt="tour" onClick={showDetail} id={content.place} />
+                </div>
+                <div>
+                  <p>
+                    <MdPlace size={30} />
+                  </p>
+                  {/* 장소명 */}
+                  <p>{content.place}</p>
+                </div>
+              </div>
             ))}
           </div>
         </div>
@@ -108,8 +180,7 @@ export default function Tour() {
       <div className={styles.page_button}>
         {/* 페이지 버튼  */}
         {(() => {
-          console.log('on');
-          // 한페이지에 6개 콘텐츠
+          // 한페이지에 9개 콘텐츠
           const key = state.contentArr.length;
           const pageNumber: number = Math.ceil(key / 9);
           let pageTag = [];
@@ -118,7 +189,7 @@ export default function Tour() {
               <p
                 key={index}
                 id={String(index)}
-                style={{ backgroundColor: 'red' }}
+                className={styles.button_off}
                 onClick={(event: MouseEvent) => {
                   setState({ ...state, pageNumber: index });
                 }}

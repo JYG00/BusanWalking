@@ -49,7 +49,6 @@ export default function MainCarousel() {
           SlideRef.current[SlideIdx].style.transition = 'all 2s ease-in-out';
         }
       }
-
       // index 범위 검사
       switch (SlideIdx) {
         case 0:

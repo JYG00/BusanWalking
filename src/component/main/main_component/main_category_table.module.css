@@ -52,24 +52,20 @@
   height: 100px;
   border-radius: 50px;
   box-shadow: rgb(150, 150, 150) 0px 5px 15px;
-  background-color: pink;
+  background-color: #fff;
   margin-left: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
   font-weight: 800;
   color: #777;
-  cursor: pointer;
-  transition: all 0.5s ease-in;
   border: 1px solid transparent;
 }
-.category_button:hover {
-  border: 1px solid #999;
-}
+
 /* 테이블 헤드 */
 .table_head {
   width: 450px;
-  display: none;
+  display: flex;
   height: 100px;
 }
 .table_head img {
@@ -115,39 +111,88 @@
   align-items: center;
   width: 100%;
   height: 700px;
-  /* overflow-x: hidden; */
   justify-content: space-around;
-  /* align-items: center; */
 }
-.table_content > .content > div {
+/* 관광지 컨텐츠 */
+.content > div {
+  display: flex;
+  flex-direction: column;
   width: 200px;
   min-width: 200px;
-  height: 200px;
+  height: 300px;
   border-radius: 100px;
-  background-color: #ffc8dd;
   box-shadow: rgb(150, 150, 150) 0px 5px 15px;
   transition: all 0.5s ease-in;
   z-index: 2;
 }
-.table_content > .content > div > p {
+.content > div:hover {
+  height: 200px;
+}
+.content > div:hover > p {
   display: none;
 }
-.table_content > .content > div:hover {
-  padding-bottom: 100px;
+.content > div:hover .hover_content {
+  display: flex;
 }
-.table_content > .content > div:hover > p {
-  display: block;
-  font-weight: bold;
-  color: #fff;
-  text-shadow: 1px 1px 10px #000;
-  padding-bottom: 100px;
+.content > div:not(:hover) {
+  transition: none;
+}
+/* 관광지 사진 */
+.content > div > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  height: 200px;
+  border-radius: 100px;
+}
+/* hover 창 */
+.hover_content {
+  display: none;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   height: 100%;
+  border-radius: 100%;
+}
+.hover_content > div:first-child {
+  position: absolute;
+  width: 200px;
+  height: 200px;
   border-radius: 100px;
+  opacity: 0.5;
+}
+.hover_content > div:last-child {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
+}
+/* hover 자세히 보기 버튼 */
+.hover_content p {
+  position: absolute;
+  z-index: 2;
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100px;
+  height: 30px;
+  border-radius: 25px;
+  background-color: #333;
+  border: 2px solid #fff;
+  color: #fff;
+}
+.hover_content p:hover {
+  background-color: #000;
+}
+/* 관광지 장소명 */
+.content > div > p:nth-child(2) {
+  text-align: center;
+  padding-top: 25px;
+  font-size: 18px;
+  color: #fff;
+  text-shadow: 1px 1px 10px #000;
 }
 
 .table_content > div > div:nth-child(2) {
@@ -155,6 +200,10 @@
 }
 .table_content > div > div:nth-child(4) {
   margin-top: 200px;
+}
+
+.mobile_button {
+  display: none;
 }
 
 @media (max-width: 1015px) {
@@ -179,16 +228,14 @@
   .table_content > .content {
     overflow-x: scroll;
   }
-  .table_content > .content > div {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  .content > div {
+    margin: 25px;
   }
-  .table_content > .content > div > p {
+  /* .table_content > .content > div > p {
     display: block;
     color: #fff;
     text-shadow: 1px 1px 10px #000;
-  }
+  } */
   .table > div:first-child {
     position: absolute;
     width: 150px;
@@ -200,24 +247,72 @@
   }
   /* 카테고리 */
   .category {
-    flex-direction: column;
-    width: 150px;
-    height: 440px;
   }
   .category_button {
     margin-left: 3px;
+    width: 70px;
+    height: 70px;
+    border-radius: 35px;
   }
   /* 테이블 헤드 */
   .table_head {
-    display: none;
+    display: flex;
     z-index: 3;
-    flex-direction: column;
+    width: auto;
     justify-content: center;
-    width: 150px;
-    height: 330px;
+  }
+  .table_head > div {
+    width: 70px;
+    height: 70px;
+    border-radius: 35px;
+  }
+  .table_head > div > img {
+    width: 70px;
+    height: 70px;
+    border-radius: 35px;
+  }
+  .table_head > div > h4 {
+    font-size: 14px;
   }
   /* 테이블 내용 */
   .table_content > .content {
     justify-content: flex-start;
+  }
+  .content {
+    height: 400px;
+  }
+  /* 관광지 장소명 */
+  .content > div > p:nth-child(2) {
+    text-align: center;
+    padding: 12px 0;
+    font-size: 18px;
+    color: #fff;
+    text-shadow: 1px 1px 10px #000;
+  }
+  .mobile_button {
+    width: 100px;
+    padding: 10px;
+    border-radius: 10px;
+    z-index: 2;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #333;
+    border: 2px solid #fff;
+    color: #fff;
+  }
+  .content > div:hover {
+    height: 300px;
+  }
+
+  .content > div:hover p:last-child {
+    display: flex;
+  }
+  .content > div:hover p:nth-child(2) {
+    display: block;
+  }
+  .content > div:hover .hover_content {
+    display: none;
   }
 }

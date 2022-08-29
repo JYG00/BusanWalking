@@ -36,6 +36,7 @@ function App() {
           tourResultArr.push({
             mainImgNormal: content.MAIN_IMG_NORMAL,
             mainImgSmall: content.MAIN_IMG_THUMB,
+            disablePeople: content.MIDDLE_SIZE_RM1,
             place: content.PLACE,
             title: content.TITLE,
             subTitle: content.SUBTITLE,

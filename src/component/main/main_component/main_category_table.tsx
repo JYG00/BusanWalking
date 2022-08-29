@@ -9,12 +9,28 @@ import forestCartoonImage from '../../../image/forest_cartoon.jpg';
 import cityCartoonImage from '../../../image/city_cartoon.jpg';
 import coastCartoonImage from '../../../image/coast_cartoon.jpg';
 import { BiCategory } from 'react-icons/bi';
+import { useNavigate } from 'react-router-dom';
 
 interface ctg_state {
   keyword: string;
   title: string;
   contentArr: Array<tourForm>;
+  ctgStyle: ctg_style;
 }
+interface ctg_style {
+  background: string;
+}
+
+// 카테고리에 따라 다른 스타일 적용
+const forestStyle: ctg_style = {
+  background: 'linear-gradient(to right, #dce35b, #45b649)',
+};
+const coastStyle: ctg_style = {
+  background: 'linear-gradient(to right, #6190e8, #a7bfe8)',
+};
+const cityStyle: ctg_style = {
+  background: 'linear-gradient(to right, #4568dc, #b06ab3)',
+};
 
 export default function MainCategoryTable() {
   // 여행지 정보를 담을 배열
@@ -22,33 +38,26 @@ export default function MainCategoryTable() {
   // 초기값은 숲길 카테고리
   let initalArr: Array<tourForm> = [];
 
+  const navigate = useNavigate();
+
   // 데이터를 가져오고 초기값 설정
   useSelector((state: RootState) => {
     state.tour.map((content) => tourArr.push(content));
     tourArr.filter((content) => content.category.includes('숲길')).map((result) => initalArr.push(result));
   });
 
-  const [ctgState, setCtgState] = useState<ctg_state>({
+  const [state, setstate] = useState<ctg_state>({
     keyword: '숲길',
     title: '숲길 타이틀',
     contentArr: initalArr,
+    ctgStyle: forestStyle,
   });
 
   const [renderSwitch, setRenderSwitch] = useState<boolean>(false);
   const categoryRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     setRenderSwitch(true);
-  }, [ctgState]);
-
-  const showCategory = () => {
-    if (categoryRef.current !== null) {
-      if (categoryRef.current.style.display === 'flex') {
-        categoryRef.current.style.display = 'none';
-      } else {
-        categoryRef.current.style.display = 'flex';
-      }
-    }
-  };
+  }, [state]);
 
   //  테이블 헤드 클릭
   const showTable = (e: MouseEvent<HTMLDivElement>) => {
@@ -57,33 +66,40 @@ export default function MainCategoryTable() {
       case 'forest':
         let forestArr: Array<tourForm> = [];
         tourArr.filter((content) => content.category.includes('숲길')).map((result) => forestArr.push(result));
-        setCtgState({
+        setstate({
           keyword: '숲길',
           title: '숲길 타이틀',
           contentArr: forestArr,
+          ctgStyle: forestStyle,
         });
         break;
       case 'coast':
         let coastArr: Array<tourForm> = [];
         tourArr.filter((content) => content.category.includes('해안길')).map((result) => coastArr.push(result));
-        setCtgState({
+        setstate({
           keyword: '해안길',
           title: '해안길 타이틀',
           contentArr: coastArr,
+          ctgStyle: coastStyle,
         });
         break;
       case 'city':
         let cityArr: Array<tourForm> = [];
         tourArr.filter((content) => content.category.includes('도심길')).map((result) => cityArr.push(result));
-        setCtgState({
+        setstate({
           keyword: '도심길',
           title: '도심길 타이틀',
           contentArr: cityArr,
+          ctgStyle: cityStyle,
         });
         break;
       default:
         break;
     }
+  };
+
+  const showDetail = (e: MouseEvent) => {
+    navigate('/detail', { state: { key: e.currentTarget.id } });
   };
 
   return (
@@ -99,7 +115,7 @@ export default function MainCategoryTable() {
             {/* 숲길, 해안길, 도심길 */}
             <div>
               <div className={styles.category}>
-                <div className={styles.category_button} onClick={showCategory}>
+                <div className={styles.category_button}>
                   <BiCategory size={50} />
                 </div>
                 <div className={styles.table_head} ref={categoryRef}>
@@ -120,24 +136,30 @@ export default function MainCategoryTable() {
             </div>
             {/* 카테고리 내용 */}
             <div className={styles.table_content}>
-              <p className={styles.banner_title}>{ctgState.title}</p>
-              <p className={styles.banner_keyword}>{ctgState.keyword}</p>
+              <p className={styles.banner_title}>{state.title}</p>
+              <p className={styles.banner_keyword}>{state.keyword}</p>
               <div className={styles.content}>
-                <div style={{ backgroundImage: `url(${ctgState.contentArr[0].mainImgSmall})`, backgroundSize: 'cover' }}>
-                  <p>{ctgState.contentArr[0].place}</p>
-                </div>
-                <div style={{ backgroundImage: `url(${ctgState.contentArr[1].mainImgSmall})`, backgroundSize: 'cover' }}>
-                  <p>{ctgState.contentArr[1].place}</p>
-                </div>
-                <div style={{ backgroundImage: `url(${ctgState.contentArr[2].mainImgSmall})`, backgroundSize: 'cover' }}>
-                  <p>{ctgState.contentArr[2].place}</p>
-                </div>
-                <div style={{ backgroundImage: `url(${ctgState.contentArr[3].mainImgSmall})`, backgroundSize: 'cover' }}>
-                  <p>{ctgState.contentArr[3].place}</p>
-                </div>
-                <div style={{ backgroundImage: `url(${ctgState.contentArr[4].mainImgSmall})`, backgroundSize: 'cover' }}>
-                  <p>{ctgState.contentArr[4].place}</p>
-                </div>
+                {state.contentArr
+                  .filter((content) => state.contentArr.indexOf(content) < 5)
+                  .map((result) => (
+                    <div key={result.place} style={{ background: state.ctgStyle.background }}>
+                      <div style={{ backgroundImage: `url(${result.mainImgSmall})`, backgroundSize: 'cover' }}>
+                        {/* hover */}
+                        <div className={styles.hover_content}>
+                          <div style={{ background: state.ctgStyle.background }}></div>
+                          <div>
+                            <p id={result.place} onClick={showDetail}>
+                              자세히 보기
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <p>{result.place}</p>
+                      <p id={result.place} className={styles.mobile_button}>
+                        자세히 보기
+                      </p>
+                    </div>
+                  ))}
               </div>
             </div>
           </div>
