@@ -1,17 +1,15 @@
 {
   "files": {
-    "main.css": "/BusanWalking/static/css/main.2ed9f235.css",
-    "main.js": "/BusanWalking/static/js/main.0484be00.js",
+    "main.css": "/BusanWalking/static/css/main.18c125f5.css",
+    "main.js": "/BusanWalking/static/js/main.1eaaafd3.js",
     "static/js/787.1acaf25b.chunk.js": "/BusanWalking/static/js/787.1acaf25b.chunk.js",
-    "static/media/walking-cartoon.jpg": "/BusanWalking/static/media/walking-cartoon.a518588e5632280203c8.jpg",
-    "static/media/together_cartoon.jpg": "/BusanWalking/static/media/together_cartoon.649df614670d6032678a.jpg",
     "index.html": "/BusanWalking/index.html",
-    "main.2ed9f235.css.map": "/BusanWalking/static/css/main.2ed9f235.css.map",
-    "main.0484be00.js.map": "/BusanWalking/static/js/main.0484be00.js.map",
+    "main.18c125f5.css.map": "/BusanWalking/static/css/main.18c125f5.css.map",
+    "main.1eaaafd3.js.map": "/BusanWalking/static/js/main.1eaaafd3.js.map",
     "787.1acaf25b.chunk.js.map": "/BusanWalking/static/js/787.1acaf25b.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.2ed9f235.css",
-    "static/js/main.0484be00.js"
+    "static/css/main.18c125f5.css",
+    "static/js/main.1eaaafd3.js"
   ]
 }
