@@ -107,7 +107,7 @@ export default function Tour() {
       {/* 상태표시바 */}
       <div className={styles.slogan_bar}>
         <div></div>
-        <h2>{state?.key}</h2>
+        <h2>{state.key}</h2>
       </div>
       {/* 여행지 테이블 */}
       <div className={styles.tour_table}>

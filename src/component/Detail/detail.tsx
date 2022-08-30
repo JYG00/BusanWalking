@@ -8,12 +8,13 @@ import styles from './detail.module.css';
 
 interface tourState {
   tourObj: Array<tourForm>;
+  updateDescClass: string;
 }
 
 export default function Detail() {
   const location = useLocation() as locationType;
   const tourArr: Array<tourForm> = [];
-  const [state, setState] = useState<tourState>();
+  const [state, setState] = useState<tourState>({ tourObj: tourArr, updateDescClass: '' });
   const descRef = useRef<HTMLParagraphElement>(null);
 
   useSelector((state: RootState) => {
@@ -23,14 +24,13 @@ export default function Detail() {
   useEffect(() => {
     let tourInfo: Array<tourForm> = [];
     tourArr.filter((content) => content.place === location.state.key).map((result) => tourInfo.push(result));
-    setState({ tourObj: tourInfo });
+    setState({ tourObj: tourInfo, updateDescClass: tourInfo[0].description });
   }, [location]);
 
   return (
     <div className={styles.container}>
       {(() => {
-        if (state !== undefined) {
-          console.log(state.tourObj[0].disablePeople);
+        if (state) {
           return (
             <div>
               {/* 배너 */}
@@ -46,20 +46,35 @@ export default function Detail() {
                   <div style={{ backgroundImage: `url(${state.tourObj[0].mainImgSmall})`, backgroundSize: '100% 100%' }}></div>
                   {/* 타이틀,정보 */}
                   <div>
+                    <h4>타이틀</h4>
                     <p>{state.tourObj[0].title}</p>
-                    {state.tourObj[0].disablePeople && <p>장애인 시설 여부 : {state.tourObj[0].disablePeople}</p>}
+                    <h4>카테고리</h4>
+                    <p>{state.tourObj[0].category}</p>
+                    {state.tourObj[0].disablePeople && (
+                      <div>
+                        <h4>장애인 시설 여부</h4>
+                        <p>{state.tourObj[0].disablePeople}</p>{' '}
+                      </div>
+                    )}
                   </div>
                 </div>
                 {/* 교통수단 */}
                 <div className={styles.tour_traffic}>
-                  <h2>교통수단</h2>
+                  <h4>교통수단</h4>
                   <p>{state.tourObj[0].traffic}</p>
                 </div>
                 {/* 관광지 설명 */}
                 <div className={styles.tour_desc}>
+                  <h4>설명</h4>
                   <p ref={descRef}></p>
-                  {(descRef.current!.innerHTML = state.tourObj[0].description)}
                 </div>
+                {(() => {
+                  if (descRef.current !== null) {
+                    descRef.current.innerHTML = state.updateDescClass;
+                  } else {
+                    return <div></div>;
+                  }
+                })()}
               </div>
             </div>
           );
