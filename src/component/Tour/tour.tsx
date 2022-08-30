@@ -5,6 +5,7 @@ import { RootState } from '../../store/store';
 import { tourForm } from '../../store/tourSlice';
 import { locationType } from '../Notice/notice';
 import { MdPlace } from 'react-icons/md';
+import { ImageCover } from '../Cover/imageCover';
 import styles from './tour.module.css';
 
 interface tourState {
@@ -17,6 +18,7 @@ export default function Tour() {
   const location = useLocation() as locationType;
   const tourArr: Array<tourForm> = [];
   const [state, setState] = useState<tourState>({ contentArr: tourArr, key: '전체관광지', pageNumber: 1 });
+  const bannerRef = useRef<HTMLDivElement>(null);
   const contentHeadRef = useRef<null | HTMLParagraphElement[]>([]);
   const contentRef = useRef<HTMLDivElement>(null);
   const pageButtonRef = useRef<null | HTMLParagraphElement[]>([]);
@@ -55,6 +57,9 @@ export default function Tour() {
 
   useEffect(() => {
     changeCategory(location.state.key);
+    if (bannerRef.current) {
+      bannerRef.current.scrollIntoView();
+    }
   }, [location]);
 
   useEffect(() => {
@@ -64,6 +69,9 @@ export default function Tour() {
       pageButtonRef.current.map((content) => content !== null && (content.className = `${styles.button_off}`));
       if (pageButtonRef.current[state.pageNumber] !== null) {
         pageButtonRef.current[state.pageNumber].className = `${styles.button_on}`;
+      }
+      if (bannerRef.current) {
+        bannerRef.current.scrollIntoView();
       }
     }
   }, [state.pageNumber]);
@@ -105,8 +113,8 @@ export default function Tour() {
   return (
     <div className={styles.container}>
       {/* 상태표시바 */}
-      <div className={styles.slogan_bar}>
-        <div></div>
+      <div className={styles.slogan_bar} ref={bannerRef}>
+        <ImageCover src={`${process.env.PUBLIC_URL}/image/walking-cartoon.jpg`} alt={'banner-Image'} />
         <h2>{state.key}</h2>
       </div>
       {/* 여행지 테이블 */}

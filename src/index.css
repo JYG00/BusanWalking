@@ -45,3 +45,9 @@ code {
 .bold {
   font-weight: bold;
 }
+.beforeLoad {
+  opacity: 0;
+}
+.completeLoad {
+  opacity: 1;
+}

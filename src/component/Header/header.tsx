@@ -194,7 +194,7 @@ function Header() {
         </div>
         {/* 로고 */}
         <div className={styles.head_logo} onMouseEnter={hideNavHover} id="logo">
-          <Link to="/"></Link>
+          <Link to="/" style={{ backgroundImage: `url(${process.env.PUBLIC_URL}/image/logo.png)` }}></Link>
         </div>
         {/* 헤더 컨텐츠 */}
         <div className={styles.head_content}>

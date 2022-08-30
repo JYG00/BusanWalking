@@ -15,6 +15,7 @@ export default function Detail() {
   const location = useLocation() as locationType;
   const tourArr: Array<tourForm> = [];
   const [state, setState] = useState<tourState>({ tourObj: tourArr, updateDescClass: '' });
+  const bannerRef = useRef<HTMLDivElement>(null);
   const descRef = useRef<HTMLParagraphElement>(null);
 
   useSelector((state: RootState) => {
@@ -25,6 +26,9 @@ export default function Detail() {
     let tourInfo: Array<tourForm> = [];
     tourArr.filter((content) => content.place === location.state.key).map((result) => tourInfo.push(result));
     setState({ tourObj: tourInfo, updateDescClass: tourInfo[0].description });
+    if (bannerRef.current) {
+      bannerRef.current.scrollIntoView();
+    }
   }, [location]);
 
   return (
@@ -34,7 +38,7 @@ export default function Detail() {
           return (
             <div>
               {/* 배너 */}
-              <div className={styles.banner}>
+              <div className={styles.banner} ref={bannerRef}>
                 <div style={{ backgroundImage: `url(${state.tourObj[0].mainImgNormal})`, backgroundSize: '100% 500px', opacity: 0.5 }}></div>
                 <h2>{state.tourObj[0].place}</h2>
               </div>

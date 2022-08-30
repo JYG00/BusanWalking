@@ -3,11 +3,9 @@ import { MouseEvent, useEffect, useRef, useState } from 'react';
 import { tourForm } from '../../../store/tourSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
+import { ImageCover } from '../../Cover/imageCover';
 // style
 import styles from './main_category_table.module.css';
-import forestCartoonImage from '../../../image/forest_cartoon.jpg';
-import cityCartoonImage from '../../../image/city_cartoon.jpg';
-import coastCartoonImage from '../../../image/coast_cartoon.jpg';
 import { BiCategory } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
 import { FiPlus } from 'react-icons/fi';
@@ -24,7 +22,7 @@ interface ctg_style {
 
 // 카테고리에 따라 다른 스타일 적용
 const forestStyle: ctg_style = {
-  background: 'linear-gradient(to right, #dce35b, #45b649)',
+  background: 'linear-gradient(to right, #45b649, #dce35b)',
 };
 const coastStyle: ctg_style = {
   background: 'linear-gradient(to right, #6190e8, #a7bfe8)',
@@ -100,16 +98,25 @@ export default function MainCategoryTable() {
     navigate('/detail', { state: { key: e.currentTarget.id } });
   };
 
-  const onLoad = () => {
-    setRenderSwitch(1);
-  };
+  useEffect(() => {
+    setRenderSwitch(0);
+  }, []);
+
+  useEffect(() => {
+    if (state.contentArr.length > 0) {
+      console.log('hi');
+      setRenderSwitch(1);
+    }
+  }, [state]);
 
   return (
     <div className={styles.container}>
       {/* 중간 파트 : 메인 카테고리 테이블 */}
       {/* 배너 */}
       <div>
-        <div className={styles.banner} style={{ backgroundImage: `url(${process.env.PUBLIC_URL}/image/together_cartoon.jpg)`, backgroundSize: 'cover' }}></div>
+        <div className={styles.banner}>
+          <ImageCover src={`${process.env.PUBLIC_URL}/image/together_cartoon.jpg`} alt={'main-table-banner'} />
+        </div>
         {/* 카레고리 테이블 */}
         <div className={styles.table}>
           {/* 카테고리 헤드 */}
@@ -120,16 +127,13 @@ export default function MainCategoryTable() {
                 <BiCategory size={50} />
               </div>
               <div className={styles.table_head} ref={categoryRef}>
-                <div id="forest" onClick={showTable}>
-                  <img src={`${process.env.PUBLIC_URL}/image/forest_cartoon.jpg`} alt="ForestIcon" />
+                <div id="forest" onClick={showTable} style={forestStyle}>
                   <h4>숲길</h4>
                 </div>
-                <div id="coast" onClick={showTable}>
-                  <img src={`${process.env.PUBLIC_URL}/image/coast_cartoon.jpg`} alt="CoastIcon" />
+                <div id="coast" onClick={showTable} style={coastStyle}>
                   <h4>해안길</h4>
                 </div>
-                <div id="city" onClick={showTable}>
-                  <img src={`${process.env.PUBLIC_URL}/image/city_cartoon.jpg`} alt="CityIcon" />
+                <div id="city" onClick={showTable} style={cityStyle}>
                   <h4>도심길</h4>
                 </div>
               </div>

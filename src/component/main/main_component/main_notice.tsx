@@ -1,5 +1,5 @@
 // Main Notice Component
-import styles from "./main_notice.module.css";
+import styles from './main_notice.module.css';
 
 export default function MainNotice() {
   return (
