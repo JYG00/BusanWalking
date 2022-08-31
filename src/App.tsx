@@ -43,6 +43,8 @@ function App() {
             description: content.ITEMCNTNTS,
             category: content.CATE2_NM,
             traffic: content.TRFC_INFO,
+            lat: content.LAT,
+            lng: content.LNG,
           });
         }),
       )

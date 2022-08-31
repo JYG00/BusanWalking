@@ -8,6 +8,7 @@
 .banner {
   width: 100%;
   height: 1100px;
+  z-index: -1;
   position: absolute;
 }
 .banner > img {
@@ -90,7 +91,7 @@
 .table_head > div:hover > h4 {
   width: 100%;
   height: 100%;
-  border-radius: 100%;
+  border-radius: 50%;
   background-color: #2a9d8f;
   opacity: 0.8;
   display: flex;

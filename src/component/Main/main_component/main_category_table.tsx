@@ -161,7 +161,7 @@ export default function MainCategoryTable() {
                     </div>
                     <p>{result.place}</p>
                     <p id={result.place} className={styles.mobile_button} onClick={showDetail}>
-                      <FiPlus size={34} />
+                      <FiPlus size={24} />
                     </p>
                   </div>
                 ))}

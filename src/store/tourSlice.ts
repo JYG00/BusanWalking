@@ -9,6 +9,8 @@ export interface tourForm {
   description: string;
   category: string;
   traffic: string;
+  lat: number;
+  lng: number;
   disablePeople?: string;
 }
 
@@ -22,6 +24,8 @@ const initalState: Array<tourForm> = [
     description: '',
     category: '',
     traffic: '',
+    lat: 0,
+    lng: 0,
   },
 ];
 

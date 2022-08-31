@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { RootState } from '../../store/store';
@@ -10,11 +11,11 @@ interface tourState {
   tourObj: Array<tourForm>;
   updateDescClass: string;
 }
-
 export default function Detail() {
   const location = useLocation() as locationType;
   const tourArr: Array<tourForm> = [];
   const [state, setState] = useState<tourState>({ tourObj: tourArr, updateDescClass: '' });
+  const mapRef = useRef<kakao.maps.Map>(null);
   const bannerRef = useRef<HTMLDivElement>(null);
   const descRef = useRef<HTMLParagraphElement>(null);
 
@@ -31,6 +32,19 @@ export default function Detail() {
     }
   }, [location]);
 
+  // map 좌표 저장
+  const bounds = useMemo(() => {
+    const bounds = new kakao.maps.LatLngBounds();
+    bounds.extend(new kakao.maps.LatLng(state.tourObj[0].lat, state.tourObj[0].lng));
+    return bounds;
+  }, [state]);
+
+  // 초기화 버튼을 누르면 원래 있던 좌표 호출
+  const initalMap = () => {
+    const map = mapRef.current;
+    if (map) map.setBounds(bounds);
+  };
+
   return (
     <div className={styles.container}>
       {(() => {
@@ -44,33 +58,51 @@ export default function Detail() {
               </div>
               {/* 관광지 정보 */}
               <div className={styles.tour_content}>
-                {/* 관광지 사진, 타이틀, 정보.. */}
+                {/* 관광지 지도, 타이틀, 정보.. */}
                 <div className={styles.tour_info}>
-                  {/* 사진 */}
-                  <div style={{ backgroundImage: `url(${state.tourObj[0].mainImgSmall})`, backgroundSize: '100% 100%' }}></div>
+                  <div className={styles.tour_map}>
+                    {/* 지도 */}
+                    <Map center={{ lat: state.tourObj[0].lat, lng: state.tourObj[0].lng }} ref={mapRef} className={styles.map}>
+                      <MapMarker position={{ lat: state.tourObj[0].lat, lng: state.tourObj[0].lng }}>
+                        <div className={styles.map_mark}>{state.tourObj[0].place}</div>
+                      </MapMarker>
+                    </Map>
+                    <button onClick={initalMap}>지도 범위 재설정 하기</button>
+                  </div>
                   {/* 타이틀,정보 */}
                   <div>
-                    <h4>타이틀</h4>
-                    <p>{state.tourObj[0].title}</p>
-                    <h4>카테고리</h4>
-                    <p>{state.tourObj[0].category}</p>
-                    {state.tourObj[0].disablePeople && (
-                      <div>
-                        <h4>장애인 시설 여부</h4>
-                        <p>{state.tourObj[0].disablePeople}</p>{' '}
-                      </div>
-                    )}
+                    <div>
+                      <table>
+                        <thead></thead>
+                        <tbody>
+                          <tr>
+                            <th scope="row">타이틀</th>
+                            <td>{state.tourObj[0].title}</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">카테고리</th>
+                            <td>{state.tourObj[0].category}</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">장애인 시설 여부</th>
+                            <td>{state.tourObj[0].disablePeople && <p>{state.tourObj[0].disablePeople}</p>}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
                 {/* 교통수단 */}
                 <div className={styles.tour_traffic}>
                   <h4>교통수단</h4>
-                  <p>{state.tourObj[0].traffic}</p>
+                  {state.tourObj[0].traffic.length > 0 ? <p>{state.tourObj[0].traffic}</p> : <p>-</p>}
                 </div>
                 {/* 관광지 설명 */}
                 <div className={styles.tour_desc}>
-                  <h4>설명</h4>
-                  <p ref={descRef}></p>
+                  <div>
+                    <h4>설명</h4>
+                    <p ref={descRef}></p>
+                  </div>
                 </div>
                 {(() => {
                   if (descRef.current !== null) {
