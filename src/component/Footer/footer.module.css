@@ -43,4 +43,7 @@
   .company_desc {
     font-size: 13px;
   }
+  .company_desc {
+    padding-left: 5px;
+  }
 }

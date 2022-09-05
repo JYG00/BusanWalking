@@ -5,6 +5,7 @@ import { useLocation } from 'react-router-dom';
 import { RootState } from '../../store/store';
 import { tourForm } from '../../store/tourSlice';
 import { locationType } from '../Notice/notice';
+import { AiOutlineInfoCircle } from 'react-icons/ai';
 import styles from './detail.module.css';
 
 interface tourState {
@@ -53,25 +54,32 @@ export default function Detail() {
             <div>
               {/* 배너 */}
               <div className={styles.banner} ref={bannerRef}>
-                <div style={{ backgroundImage: `url(${state.tourObj[0].mainImgNormal})`, backgroundSize: '100% 500px', opacity: 0.5 }}></div>
+                <div style={{ backgroundImage: `url(${state.tourObj[0].mainImgNormal})`, backgroundSize: '100% 100%', opacity: 0.5 }}></div>
                 <h2>{state.tourObj[0].place}</h2>
               </div>
               {/* 관광지 정보 */}
               <div className={styles.tour_content}>
                 {/* 관광지 지도, 타이틀, 정보.. */}
-                <div className={styles.tour_info}>
+                <div className={styles.tour_content_in}>
                   <div className={styles.tour_map}>
                     {/* 지도 */}
-                    <Map center={{ lat: state.tourObj[0].lat, lng: state.tourObj[0].lng }} ref={mapRef} className={styles.map}>
+                    <Map center={{ lat: state.tourObj[0].lat, lng: state.tourObj[0].lng }} ref={mapRef} className={styles.map} level={2}>
                       <MapMarker position={{ lat: state.tourObj[0].lat, lng: state.tourObj[0].lng }}>
                         <div className={styles.map_mark}>{state.tourObj[0].place}</div>
                       </MapMarker>
                     </Map>
                     <button onClick={initalMap}>지도 범위 재설정 하기</button>
+                    <a href={state.tourObj[0].mainImgNormal} target="_blank" rel="noreferrer">
+                      이미지 새 창으로 열기
+                    </a>
                   </div>
-                  {/* 타이틀,정보 */}
-                  <div>
+                  {/* 관광지 타이틀,정보 */}
+                  <div className={styles.tour_info}>
                     <div>
+                      <h4>
+                        {state.tourObj[0].place}
+                        <AiOutlineInfoCircle />
+                      </h4>
                       <table>
                         <thead></thead>
                         <tbody>
@@ -85,17 +93,16 @@ export default function Detail() {
                           </tr>
                           <tr>
                             <th scope="row">장애인 시설 여부</th>
-                            <td>{state.tourObj[0].disablePeople && <p>{state.tourObj[0].disablePeople}</p>}</td>
+                            <td>{state.tourObj[0].disablePeople ? <p>{state.tourObj[0].disablePeople}</p> : <p>-</p>}</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">교통수단</th>
+                            <td>{state.tourObj[0].traffic.length > 0 ? <p>{state.tourObj[0].traffic}</p> : <p>-</p>}</td>
                           </tr>
                         </tbody>
                       </table>
                     </div>
                   </div>
-                </div>
-                {/* 교통수단 */}
-                <div className={styles.tour_traffic}>
-                  <h4>교통수단</h4>
-                  {state.tourObj[0].traffic.length > 0 ? <p>{state.tourObj[0].traffic}</p> : <p>-</p>}
                 </div>
                 {/* 관광지 설명 */}
                 <div className={styles.tour_desc}>

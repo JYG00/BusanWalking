@@ -47,7 +47,6 @@
 /* 카테고리 */
 .category {
   display: flex;
-  justify-content: space-between;
   width: 600px;
   height: 100px;
 }
@@ -57,7 +56,7 @@
   border-radius: 50px;
   box-shadow: rgb(150, 150, 150) 0px 5px 15px;
   background-color: #fff;
-  margin-left: 50px;
+  margin: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -121,8 +120,7 @@
   min-width: 200px;
   height: 300px;
   border-radius: 100px;
-  box-shadow: rgb(150, 150, 150) 0px 5px 15px;
-  /* transition: all 0.2s ease-in; */
+
   z-index: 2;
 }
 .content > div:hover {
@@ -248,7 +246,6 @@
   .category {
   }
   .category_button {
-    margin-left: 3px;
     width: 70px;
     height: 70px;
     border-radius: 35px;

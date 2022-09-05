@@ -124,7 +124,7 @@ export default function MainCategoryTable() {
           <div>
             <div className={styles.category}>
               <div className={styles.category_button}>
-                <BiCategory size={50} />
+                <BiCategory size={40} />
               </div>
               <div className={styles.table_head} ref={categoryRef}>
                 <div id="forest" onClick={showTable} style={forestStyle}>

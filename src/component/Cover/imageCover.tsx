@@ -7,6 +7,5 @@ interface imageProps {
 
 export const ImageCover = (props: imageProps) => {
   const { loaded } = useImage(props.src);
-  console.log(loaded);
   return <img className={loaded ? 'beforeLoad' : 'completeLoad'} src={props.src} alt={props.alt} />;
 };
