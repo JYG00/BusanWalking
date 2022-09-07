@@ -1,5 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+import { RootState } from '../../store/store';
+import { tourForm } from '../../store/tourSlice';
 import styles from './search.module.css';
 
 interface locationForm {
@@ -10,12 +13,19 @@ interface locationForm {
 
 export default function Search() {
   const location = useLocation() as locationForm;
+  const tourArr: Array<tourForm> = useSelector((state: RootState) => state.tour);
+  let resultArr: Array<tourForm> = [];
 
-  const [key, setKey] = useState<string>();
+  const key = useMemo(() => {
+    const key = location.state.key;
+    return key;
+  }, [location]);
 
   useEffect(() => {
-    setKey(location.state.key);
-  }, [location]);
+    resultArr = [];
+    tourArr.filter((content) => content.description.includes(key)).map((result) => resultArr.push(result));
+    console.log(resultArr);
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -23,18 +33,7 @@ export default function Search() {
       <div className={styles.slogan_bar}>{key}에 대한 검색결과</div>
       {/* 게시판 */}
       <div className={styles.notice_table}>
-        <div className={styles.table_head}>
-          <p>명소공유</p>
-          <p>Q&A</p>
-        </div>
-        <div className={styles.table_body}>
-          {/* 상단 : 제목, 검색할 내용, 검색버튼 */}
-          <div></div>
-          {/* 중간 : 게시글 */}
-          <div></div>
-          {/* 하단 : 등록 버튼 */}
-          <div></div>
-        </div>
+        <div className={styles.table_body}></div>
         {/* 페이지 버튼  */}
         <div className={styles.page_button}>
           <p>1</p>

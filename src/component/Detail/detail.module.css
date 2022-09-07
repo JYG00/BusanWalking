@@ -106,6 +106,7 @@
 }
 .tour_info td {
   padding: 10px;
+  min-width: 500px;
   background-color: #fff;
   border-right: 1px solid #ccc;
   border-bottom: 1px solid #ccc;

@@ -58,22 +58,6 @@ function App() {
     getData();
   }, []);
 
-  // const handleScroll = () => {
-  //   console.log('hi');
-  //   if (window.scrollY > 0) {
-  //     dispatch(SCROLL(true));
-  //   } else {
-  //     dispatch(SCROLL(false));
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   window.addEventListener('scroll', handleScroll);
-  //   return () => {
-  //     window.removeEventListener('scroll', handleScroll);
-  //   };
-  // }, [window.scrollY]);
-
   return (
     <div className="container">
       {state.isRender && (

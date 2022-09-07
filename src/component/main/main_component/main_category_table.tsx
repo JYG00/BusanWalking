@@ -32,32 +32,19 @@ const cityStyle: ctg_style = {
 };
 
 export default function MainCategoryTable() {
-  // 여행지 정보를 담을 배열
-  let tourArr: Array<tourForm> = [];
-  // 초기값은 숲길 카테고리
-  let initalArr: Array<tourForm> = [];
-
+  const tourArr: Array<tourForm> = useSelector((state: RootState) => state.tour);
   const navigate = useNavigate();
-
-  // 데이터를 가져오고 초기값 설정
-  useSelector((state: RootState) => {
-    state.tour.map((content) => tourArr.push(content));
-    tourArr.filter((content) => content.category.includes('숲길')).map((result) => initalArr.push(result));
-  });
+  const categoryRef = useRef<HTMLDivElement>(null);
 
   const [state, setstate] = useState<ctg_state>({
     keyword: '숲길',
     title: '숲길 타이틀',
-    contentArr: initalArr,
+    contentArr: tourArr.filter((content) => content.category.includes('숲길')),
     ctgStyle: forestStyle,
   });
 
-  const [renderSwitch, setRenderSwitch] = useState<number>(0);
-  const categoryRef = useRef<HTMLDivElement>(null);
-
   //  카테고리 클릭 시
   const showTable = (e: MouseEvent<HTMLDivElement>) => {
-    setRenderSwitch(0);
     switch (e.currentTarget.id) {
       case 'forest':
         let forestArr: Array<tourForm> = [];
@@ -97,17 +84,6 @@ export default function MainCategoryTable() {
   const showDetail = (e: MouseEvent) => {
     navigate('/detail', { state: { key: e.currentTarget.id } });
   };
-
-  useEffect(() => {
-    setRenderSwitch(0);
-  }, []);
-
-  useEffect(() => {
-    if (state.contentArr.length > 0) {
-      console.log('hi');
-      setRenderSwitch(1);
-    }
-  }, [state]);
 
   return (
     <div className={styles.container}>

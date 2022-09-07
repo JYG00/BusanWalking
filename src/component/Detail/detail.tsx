@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { FormEvent, useEffect, useMemo, useRef, useState } from 'react';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
@@ -12,17 +12,25 @@ interface tourState {
   tourObj: Array<tourForm>;
   updateDescClass: string;
 }
+
+interface markerForm {
+  position: { lat: any; lng: any };
+  content: any;
+}
+
+interface mapSearchForm {
+  search_key: any;
+}
+
 export default function Detail() {
   const location = useLocation() as locationType;
-  const tourArr: Array<tourForm> = [];
+  const tourArr: Array<tourForm> = useSelector((state: RootState) => state.tour);
   const [state, setState] = useState<tourState>({ tourObj: tourArr, updateDescClass: '' });
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  const [mapKeyword, setMapKeyword] = useState<mapSearchForm>();
   const mapRef = useRef<kakao.maps.Map>(null);
   const bannerRef = useRef<HTMLDivElement>(null);
   const descRef = useRef<HTMLParagraphElement>(null);
-
-  useSelector((state: RootState) => {
-    state.tour.map((result) => tourArr.push(result));
-  });
 
   useEffect(() => {
     let tourInfo: Array<tourForm> = [];
@@ -46,6 +54,57 @@ export default function Detail() {
     if (map) map.setBounds(bounds);
   };
 
+  const [info, setInfo] = useState<markerForm>();
+  const [markers, setMarkers] = useState<Array<markerForm>>([]);
+  const [map, setMap] = useState();
+
+  // 지도 위 검색창의 결과로 지도를 불러옵니다
+  const onSubmit = (event: FormEvent) => {
+    event.preventDefault();
+
+    const map = mapRef.current;
+    if (!map) return;
+    const ps = new kakao.maps.services.Places(map);
+    let keyword = null;
+
+    if (mapKeyword) {
+      keyword = mapKeyword.search_key;
+    }
+
+    ps.keywordSearch(keyword, (data, status, _pagination) => {
+      if (status === kakao.maps.services.Status.OK) {
+        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+        // LatLngBounds 객체에 좌표를 추가합니다
+        const bounds = new kakao.maps.LatLngBounds();
+        let markers = [];
+
+        for (var i = 0; i < data.length; i++) {
+          // @ts-ignore
+          markers.push({
+            position: {
+              lat: data[i].y,
+              lng: data[i].x,
+            },
+            content: data[i].place_name,
+          });
+          // @ts-ignore
+          bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
+        }
+        setMarkers(markers);
+
+        // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
+        if (map) {
+          map.setBounds(bounds);
+        }
+      }
+    });
+
+    // 검색창 내용 초기화
+    if (searchInputRef.current) {
+      searchInputRef.current.value = '';
+    }
+  };
+
   return (
     <div className={styles.container}>
       {(() => {
@@ -64,9 +123,25 @@ export default function Detail() {
                   <div className={styles.tour_map}>
                     {/* 지도 */}
                     <Map center={{ lat: state.tourObj[0].lat, lng: state.tourObj[0].lng }} ref={mapRef} className={styles.map} level={2}>
+                      <form onSubmit={onSubmit}>
+                        <input
+                          type="text"
+                          placeholder="검색할 내용을 입력해주세요. (예:부산 서구"
+                          ref={searchInputRef}
+                          onChange={(e) => {
+                            setMapKeyword({ ...mapKeyword, search_key: e.target.value });
+                          }}
+                        />
+                        <button type="submit">submit</button>
+                      </form>
                       <MapMarker position={{ lat: state.tourObj[0].lat, lng: state.tourObj[0].lng }}>
                         <div className={styles.map_mark}>{state.tourObj[0].place}</div>
                       </MapMarker>
+                      {markers.map((marker) => (
+                        <MapMarker key={`marker-${marker.content}-${marker.position.lat},${marker.position.lng}`} position={marker.position} onClick={() => setInfo(marker)}>
+                          {info && info.content === marker.content && <div style={{ color: '#000' }}>{marker.content}</div>}
+                        </MapMarker>
+                      ))}
                     </Map>
                     <button onClick={initalMap}>지도 범위 재설정 하기</button>
                     <a href={state.tourObj[0].mainImgNormal} target="_blank" rel="noreferrer">
