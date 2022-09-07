@@ -5,6 +5,7 @@ import { useLocation } from 'react-router-dom';
 import { RootState } from '../../store/store';
 import { tourForm } from '../../store/tourSlice';
 import { locationType } from '../Notice/notice';
+import { BiSearch } from 'react-icons/bi';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
 import styles from './detail.module.css';
 
@@ -56,7 +57,6 @@ export default function Detail() {
 
   const [info, setInfo] = useState<markerForm>();
   const [markers, setMarkers] = useState<Array<markerForm>>([]);
-  const [map, setMap] = useState();
 
   // 지도 위 검색창의 결과로 지도를 불러옵니다
   const onSubmit = (event: FormEvent) => {
@@ -121,25 +121,28 @@ export default function Detail() {
                 {/* 관광지 지도, 타이틀, 정보.. */}
                 <div className={styles.tour_content_in}>
                   <div className={styles.tour_map}>
+                    {/* 키워드로 지도 검색 */}
+                    <form onSubmit={onSubmit} className={styles.map_search}>
+                      <input
+                        type="text"
+                        placeholder="검색할 내용을 입력해주세요."
+                        ref={searchInputRef}
+                        onChange={(e) => {
+                          setMapKeyword({ ...mapKeyword, search_key: e.target.value });
+                        }}
+                      />
+                      <button type="submit">
+                        <BiSearch style={{ fill: '#fff' }} />
+                      </button>
+                    </form>
                     {/* 지도 */}
                     <Map center={{ lat: state.tourObj[0].lat, lng: state.tourObj[0].lng }} ref={mapRef} className={styles.map} level={2}>
-                      <form onSubmit={onSubmit}>
-                        <input
-                          type="text"
-                          placeholder="검색할 내용을 입력해주세요. (예:부산 서구"
-                          ref={searchInputRef}
-                          onChange={(e) => {
-                            setMapKeyword({ ...mapKeyword, search_key: e.target.value });
-                          }}
-                        />
-                        <button type="submit">submit</button>
-                      </form>
                       <MapMarker position={{ lat: state.tourObj[0].lat, lng: state.tourObj[0].lng }}>
                         <div className={styles.map_mark}>{state.tourObj[0].place}</div>
                       </MapMarker>
                       {markers.map((marker) => (
                         <MapMarker key={`marker-${marker.content}-${marker.position.lat},${marker.position.lng}`} position={marker.position} onClick={() => setInfo(marker)}>
-                          {info && info.content === marker.content && <div style={{ color: '#000' }}>{marker.content}</div>}
+                          {info && info.content === marker.content && <div className={styles.map_mark}>{marker.content}</div>}
                         </MapMarker>
                       ))}
                     </Map>

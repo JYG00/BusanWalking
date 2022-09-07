@@ -1,9 +1,10 @@
-import { useEffect, useMemo, useState } from 'react';
+import { MouseEvent, useEffect, useMemo, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { RootState } from '../../store/store';
 import { tourForm } from '../../store/tourSlice';
 import styles from './search.module.css';
+import { MdPlace } from 'react-icons/md';
 
 interface locationForm {
   state: {
@@ -13,35 +14,96 @@ interface locationForm {
 
 export default function Search() {
   const location = useLocation() as locationForm;
+  const [pgState, setPgState] = useState<number>(1);
   const tourArr: Array<tourForm> = useSelector((state: RootState) => state.tour);
-  let resultArr: Array<tourForm> = [];
+  const contentRef = useRef<HTMLDivElement>(null);
+  const pageButtonRef = useRef<null | HTMLParagraphElement[]>([]);
+  const bannerRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
-  const key = useMemo(() => {
-    const key = location.state.key;
-    return key;
+  const result = useMemo(() => {
+    const result = tourArr.filter((content) => content.description.includes(location.state.key));
+    return result;
   }, [location]);
 
+  const showDetail = (e: MouseEvent) => {
+    navigate('/detail', { state: { key: e.currentTarget.id } });
+  };
+
   useEffect(() => {
-    resultArr = [];
-    tourArr.filter((content) => content.description.includes(key)).map((result) => resultArr.push(result));
-    console.log(resultArr);
-  }, []);
+    if (contentRef.current !== null && pageButtonRef.current !== null) {
+      // (페이지 번호 *  -(한 페이지 크기) )
+      if (!pgState) return;
+      contentRef.current.style.top = `${(pgState - 1) * -1350}px`;
+      pageButtonRef.current.map((content) => content !== null && (content.className = `${styles.button_off}`));
+      if (pageButtonRef.current[pgState]) {
+        pageButtonRef.current[pgState].className = `${styles.button_on}`;
+      }
+      if (bannerRef.current) {
+        bannerRef.current.scrollIntoView();
+      }
+    }
+  }, [pgState]);
 
   return (
     <div className={styles.container}>
-      {/* 슬로건 바 */}
-      <div className={styles.slogan_bar}>{key}에 대한 검색결과</div>
-      {/* 게시판 */}
-      <div className={styles.notice_table}>
-        <div className={styles.table_body}></div>
-        {/* 페이지 버튼  */}
-        <div className={styles.page_button}>
-          <p>1</p>
-          <p>2</p>
-          <p>3</p>
-          <p>4</p>
-          <p>5</p>
+      {/* 배너 */}
+      <div className={styles.banner} ref={bannerRef}>
+        {location.state.key}에 대한 검색결과
+      </div>
+      {/* 검색 결과 */}
+      <div className={styles.search_result}>
+        <div ref={contentRef}>
+          {result.length !== 0 ? (
+            result.map((result) => (
+              <div key={result.place}>
+                {/* 관광지 사진 */}
+                <div style={{ background: `url(${result.mainImgSmall})`, backgroundSize: '100% 100%' }}>
+                  <img src={result.mainImgSmall} alt="tour" onClick={showDetail} id={result.place} />
+                </div>
+                {/* 관광지명 */}
+                <div>
+                  <MdPlace size={30} />
+                  <h4>{result.place}</h4>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div style={{ zIndex: 100, width: '200px', height: '200px' }}>검색결과가 없습니다</div>
+          )}
         </div>
+      </div>
+      {/* 페이지 버튼  */}
+      <div className={styles.page_button}>
+        {(() => {
+          // 한페이지에 9개 콘텐츠
+          const key = result.length;
+          if (key < 10) {
+            return;
+          }
+          const pageNumber: number = Math.ceil(key / 9);
+          let pageTag = [];
+          for (let index: number = 1; index < pageNumber + 1; index++) {
+            pageTag.push(
+              <p
+                key={index}
+                id={String(index)}
+                className={styles.button_off}
+                onClick={(event: MouseEvent) => {
+                  setPgState(index);
+                }}
+                ref={(elem: HTMLParagraphElement) => {
+                  if (pageButtonRef.current !== null) {
+                    pageButtonRef.current[index] = elem;
+                  }
+                }}
+              >
+                {index}
+              </p>,
+            );
+          }
+          return pageTag;
+        })()}
       </div>
     </div>
   );

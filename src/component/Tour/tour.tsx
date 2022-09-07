@@ -16,7 +16,7 @@ interface tourState {
 
 export default function Tour() {
   const location = useLocation() as locationType;
-  const tourArr: Array<tourForm> = [];
+  const tourArr: Array<tourForm> = useSelector((state: RootState) => state.tour);
   const [state, setState] = useState<tourState>({ contentArr: tourArr, key: '전체관광지', pageNumber: 1 });
   const bannerRef = useRef<HTMLDivElement>(null);
   const contentHeadRef = useRef<null | HTMLParagraphElement[]>([]);
@@ -24,10 +24,6 @@ export default function Tour() {
   const pageButtonRef = useRef<null | HTMLParagraphElement[]>([]);
 
   const navigate = useNavigate();
-
-  useSelector((state: RootState) => {
-    state.tour.map((content) => tourArr.push(content));
-  });
 
   // key 값에 따라서 카테고리 변경
   const changeCategory = (key: string) => {
