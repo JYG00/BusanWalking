@@ -120,7 +120,6 @@
   min-width: 200px;
   height: 300px;
   border-radius: 100px;
-
   z-index: 2;
 }
 .content > div:hover {
@@ -227,12 +226,14 @@
   }
   .content > div {
     margin: 25px;
+    height: 200px;
   }
-  /* .table_content > .content > div > p {
-    display: block;
-    color: #fff;
-    text-shadow: 1px 1px 10px #000;
-  } */
+  .content > div > p {
+    z-index: 10;
+  }
+  .content > div > div {
+  }
+
   .table > div:first-child {
     position: absolute;
     width: 150px;

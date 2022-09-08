@@ -5,6 +5,7 @@ import { RootState } from '../../store/store';
 import { tourForm } from '../../store/tourSlice';
 import styles from './search.module.css';
 import { MdPlace } from 'react-icons/md';
+import { BiSearch } from 'react-icons/bi';
 
 interface locationForm {
   state: {
@@ -22,6 +23,7 @@ export default function Search() {
   const navigate = useNavigate();
 
   const result = useMemo(() => {
+    setPgState(1);
     const result = tourArr.filter((content) => content.description.includes(location.state.key));
     return result;
   }, [location]);
@@ -34,7 +36,7 @@ export default function Search() {
     if (contentRef.current !== null && pageButtonRef.current !== null) {
       // (페이지 번호 *  -(한 페이지 크기) )
       if (!pgState) return;
-      contentRef.current.style.top = `${(pgState - 1) * -1350}px`;
+      contentRef.current.style.top = `${(pgState - 1) * -1356}px`;
       pageButtonRef.current.map((content) => content !== null && (content.className = `${styles.button_off}`));
       if (pageButtonRef.current[pgState]) {
         pageButtonRef.current[pgState].className = `${styles.button_on}`;
@@ -49,28 +51,35 @@ export default function Search() {
     <div className={styles.container}>
       {/* 배너 */}
       <div className={styles.banner} ref={bannerRef}>
-        {location.state.key}에 대한 검색결과
+        <h2>{location.state.key}에 대한 검색결과</h2>
+        <i>
+          <BiSearch style={{ fill: '#777' }} />
+        </i>
       </div>
       {/* 검색 결과 */}
       <div className={styles.search_result}>
-        <div ref={contentRef}>
-          {result.length !== 0 ? (
-            result.map((result) => (
-              <div key={result.place}>
-                {/* 관광지 사진 */}
-                <div style={{ background: `url(${result.mainImgSmall})`, backgroundSize: '100% 100%' }}>
-                  <img src={result.mainImgSmall} alt="tour" onClick={showDetail} id={result.place} />
+        <div className={styles.search_result_in}>
+          <div ref={contentRef}>
+            {result.length !== 0 ? (
+              result.map((result) => (
+                <div key={result.place} className={styles.place}>
+                  {/* 관광지 사진 */}
+                  <div style={{ background: `url(${result.mainImgSmall})`, backgroundSize: '100% 100%' }}>
+                    <img src={result.mainImgSmall} alt="tour" onClick={showDetail} id={result.place} />
+                  </div>
+                  {/* 관광지명 */}
+                  <div>
+                    <p>
+                      <MdPlace size={30} />
+                    </p>
+                    <h4>{result.place}</h4>
+                  </div>
                 </div>
-                {/* 관광지명 */}
-                <div>
-                  <MdPlace size={30} />
-                  <h4>{result.place}</h4>
-                </div>
-              </div>
-            ))
-          ) : (
-            <div style={{ zIndex: 100, width: '200px', height: '200px' }}>검색결과가 없습니다</div>
-          )}
+              ))
+            ) : (
+              <div className={styles.search_none}>{location.state.key}에 대한 검색결과가 없습니다</div>
+            )}
+          </div>
         </div>
       </div>
       {/* 페이지 버튼  */}

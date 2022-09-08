@@ -61,7 +61,7 @@ export default function Tour() {
   useEffect(() => {
     if (contentRef.current !== null && pageButtonRef.current !== null) {
       // (페이지 번호 *  -(한 페이지 크기) )
-      contentRef.current.style.top = `${(state.pageNumber - 1) * -1350}px`;
+      contentRef.current.style.top = `${(state.pageNumber - 1) * -1356}px`;
       pageButtonRef.current.map((content) => content !== null && (content.className = `${styles.button_off}`));
       if (pageButtonRef.current[state.pageNumber] !== null) {
         pageButtonRef.current[state.pageNumber].className = `${styles.button_on}`;

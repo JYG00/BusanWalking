@@ -56,7 +56,7 @@ export default function SearchForm(props: SearchFormProps) {
           >
             <input
               type="text"
-              placeholder="검색할 내용을 입력해주세요. (예:부산 서구"
+              placeholder="검색할 내용을 입력해주세요."
               ref={searchInputRef}
               onChange={(e) => {
                 setState({ ...state, search_key: e.target.value });

@@ -141,8 +141,8 @@ export default function Detail() {
                         <div className={styles.map_mark}>{state.tourObj[0].place}</div>
                       </MapMarker>
                       {markers.map((marker) => (
-                        <MapMarker key={`marker-${marker.content}-${marker.position.lat},${marker.position.lng}`} position={marker.position} onClick={() => setInfo(marker)}>
-                          {info && info.content === marker.content && <div className={styles.map_mark}>{marker.content}</div>}
+                        <MapMarker key={`marker-${marker.content}-${marker.position.lat},${marker.position.lng}`} position={marker.position}>
+                          <div className={styles.map_mark}>{marker.content}</div>
                         </MapMarker>
                       ))}
                     </Map>
