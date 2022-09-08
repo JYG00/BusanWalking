@@ -8,6 +8,7 @@ import Detail from './component/Detail/detail';
 import Search from './component/Search/search';
 import Notice from './component/Notice/notice';
 import SendEmail from './component/Email/email';
+import Post from './component/Post/post';
 import axios from 'axios';
 import { Routes, Route } from 'react-router-dom';
 import { ADD, tourForm } from './store/tourSlice';
@@ -69,9 +70,12 @@ function App() {
             <Route path="notice" element={<Notice />} />
             <Route path="search" element={<Search />} />
             <Route path="detail" element={<Detail />} />
-            <Route path="email" element={<SendEmail />} />
           </Routes>
           <Footer />
+          <Routes>
+            <Route path="email" element={<SendEmail />} />
+            <Route path="post" element={<Post />} />
+          </Routes>
         </div>
       )}
     </div>

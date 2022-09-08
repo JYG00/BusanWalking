@@ -58,6 +58,7 @@ export default function SearchForm(props: SearchFormProps) {
               type="text"
               placeholder="검색할 내용을 입력해주세요."
               ref={searchInputRef}
+              maxLength={15}
               onChange={(e) => {
                 setState({ ...state, search_key: e.target.value });
               }}

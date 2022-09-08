@@ -8,7 +8,6 @@ import { ImageCover } from '../../Cover/imageCover';
 import styles from './main_category_table.module.css';
 import { BiCategory } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
-import { FiPlus } from 'react-icons/fi';
 
 interface ctg_state {
   keyword: string;
@@ -123,7 +122,7 @@ export default function MainCategoryTable() {
               {state.contentArr
                 .filter((content) => state.contentArr.indexOf(content) < 5)
                 .map((result) => (
-                  <div key={result.place} style={{ background: state.ctgStyle.background }}>
+                  <div key={result.place} style={{ background: state.ctgStyle.background }} id={result.place} onClick={showDetail}>
                     <div style={{ backgroundImage: `url(${result.mainImgSmall})`, backgroundSize: 'cover' }}>
                       {/* hover */}
                       <div className={styles.hover_content}>
@@ -136,9 +135,6 @@ export default function MainCategoryTable() {
                       </div>
                     </div>
                     <p>{result.place}</p>
-                    <p id={result.place} className={styles.mobile_button} onClick={showDetail}>
-                      <FiPlus size={24} />
-                    </p>
                   </div>
                 ))}
             </div>

@@ -6,6 +6,7 @@ import { tourForm } from '../../store/tourSlice';
 import styles from './search.module.css';
 import { MdPlace } from 'react-icons/md';
 import { BiSearch } from 'react-icons/bi';
+import { BsFolderX } from 'react-icons/bs';
 
 interface locationForm {
   state: {
@@ -35,7 +36,6 @@ export default function Search() {
   useEffect(() => {
     if (contentRef.current !== null && pageButtonRef.current !== null) {
       // (페이지 번호 *  -(한 페이지 크기) )
-      if (!pgState) return;
       contentRef.current.style.top = `${(pgState - 1) * -1356}px`;
       pageButtonRef.current.map((content) => content !== null && (content.className = `${styles.button_off}`));
       if (pageButtonRef.current[pgState]) {
@@ -77,7 +77,14 @@ export default function Search() {
                 </div>
               ))
             ) : (
-              <div className={styles.search_none}>{location.state.key}에 대한 검색결과가 없습니다</div>
+              <div className={styles.search_none}>
+                <p>
+                  <BsFolderX size={100} />
+                </p>
+                <p>
+                  <h4>{location.state.key}에 대한 검색결과가 없습니다</h4>
+                </p>
+              </div>
             )}
           </div>
         </div>
@@ -97,7 +104,7 @@ export default function Search() {
               <p
                 key={index}
                 id={String(index)}
-                className={styles.button_off}
+                className={index === 1 ? styles.button_on : styles.button_off}
                 onClick={(event: MouseEvent) => {
                   setPgState(index);
                 }}

@@ -208,7 +208,7 @@ function Header() {
             </div>
             {/* 참여마당 */}
             <div onMouseEnter={showNavHover} onMouseLeave={hideNavHover} id="참여마당">
-              <Link to="notice" state={{ key: '이용문의' }}>
+              <Link to="notice" state={{ key: '명소공유' }}>
                 <p>참여마당</p>
               </Link>
               {state.keyWord === '참여마당' && <HoverContent keyWord={state.keyWord} scrollY={state.scrollY} isHover={state.isHover} />}

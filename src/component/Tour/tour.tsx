@@ -108,7 +108,7 @@ export default function Tour() {
 
   return (
     <div className={styles.container}>
-      {/* 상태표시바 */}
+      {/* 배너 */}
       <div className={styles.slogan_bar} ref={bannerRef}>
         <ImageCover src={`${process.env.PUBLIC_URL}/image/walking-cartoon.jpg`} alt={'banner-Image'} />
         <h2>{state.key}</h2>

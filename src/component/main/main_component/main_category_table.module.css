@@ -114,6 +114,7 @@
 }
 /* 관광지 컨텐츠 */
 .content > div {
+  cursor: pointer;
   display: flex;
   flex-direction: column;
   width: 200px;
@@ -224,15 +225,6 @@
   .table_content > .content {
     overflow-x: scroll;
   }
-  .content > div {
-    margin: 25px;
-    height: 200px;
-  }
-  .content > div > p {
-    z-index: 10;
-  }
-  .content > div > div {
-  }
 
   .table > div:first-child {
     position: absolute;
@@ -273,27 +265,33 @@
   }
   /* 테이블 내용 */
   .table_content > .content {
+    /* position: absolute; */
     justify-content: flex-start;
   }
   /* 관광지 장소명 */
+  .content > div {
+    margin: 25px;
+    width: 300px;
+    height: 300px;
+    overflow: hidden;
+  }
+  .content > div > div {
+    height: 200px;
+    border-radius: 100%;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  }
+  .content > div > p {
+    z-index: 10;
+  }
   .content > div > p:nth-child(2) {
     text-align: center;
-    padding: 12px 0;
-    font-size: 18px;
+    min-width: 200px;
+    padding-top: 20px;
     color: #fff;
-    text-shadow: 1px 1px 10px #888;
-  }
-  .mobile_button {
-    z-index: 3;
     cursor: pointer;
-    box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
-    width: 50px;
-    height: 50px;
-    border-radius: 25px;
-    background-color: #f1faee;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  }
+  .content > div > p:nth-child(2):hover {
+    color: #000;
   }
   .content > div:hover {
     height: 300px;
