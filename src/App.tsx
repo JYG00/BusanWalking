@@ -8,11 +8,15 @@ import Detail from './component/Detail/detail';
 import Search from './component/Search/search';
 import Notice from './component/Notice/notice';
 import SendEmail from './component/Email/email';
-import Post from './component/Post/post';
+import Post from './component/Notice/notice_component/post';
+import NoticeDetail from './component/Notice/notice_component/noticeDetail';
+import Update from './component/Notice/notice_component/update';
 import axios from 'axios';
 import { Routes, Route } from 'react-router-dom';
-import { ADD, tourForm } from './store/tourSlice';
+import {  loadTourData, tourForm } from './store/tourSlice';
+import { loadNoticeData, noticeForm } from './store/noticeSlice';
 import { useDispatch } from 'react-redux';
+
 
 interface AppState {
   isRender: boolean;
@@ -25,7 +29,8 @@ function App() {
 
   const dispatch = useDispatch();
 
-  const getData = async () => {
+  // 여행지 데이터를 가져옵니다
+  const getTourData = async () => {
     let tourResultArr: Array<tourForm> = [];
     await axios
       .get(
@@ -50,13 +55,19 @@ function App() {
         }),
       )
       .then(() => {
-        dispatch(ADD(tourResultArr));
+        dispatch(loadTourData(tourResultArr));
         setState({ ...state, isRender: true });
       });
   };
 
+// 게시글 데이터를 가져옵니다
+  const getNoticeData = () => {
+    const dummyData:Array<noticeForm> = [{content:"이러쿵저러쿵..",date:'2022-01-01',title:'전망좋은카페',user:'dev001',view:2},{content:"어쩌구저쩌구..",date:'2022-01-11',title:'시원한밀면',user:'dev003',view:3}]
+    dispatch(loadNoticeData(dummyData));
+  }
   useEffect(() => {
-    getData();
+    getTourData();
+    getNoticeData();
   }, []);
 
   return (
@@ -67,14 +78,17 @@ function App() {
           <Routes>
             <Route path="/" element={<Main />} />
             <Route path="tour" element={<Tour />} />
-            <Route path="notice" element={<Notice />} />
+            <Route path="/notice" element={<Notice />} >
+              <Route path="post" element={<Post/>}></Route>
+              <Route path="noticeDetail" element={<NoticeDetail/>}></Route>
+              <Route path="update" element={<Update/>}></Route>
+            </Route>
             <Route path="search" element={<Search />} />
             <Route path="detail" element={<Detail />} />
           </Routes>
           <Footer />
           <Routes>
             <Route path="email" element={<SendEmail />} />
-            <Route path="post" element={<Post />} />
           </Routes>
         </div>
       )}

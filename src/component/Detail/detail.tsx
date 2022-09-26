@@ -19,6 +19,8 @@ interface markerForm {
   content: any;
 }
 
+
+
 interface mapSearchForm {
   search_key: any;
 }
@@ -27,6 +29,7 @@ export default function Detail() {
   const location = useLocation() as locationType;
   const tourArr: Array<tourForm> = useSelector((state: RootState) => state.tour);
   const [state, setState] = useState<tourState>({ tourObj: tourArr, updateDescClass: '' });
+  
   const searchInputRef = useRef<HTMLInputElement>(null);
   const [mapKeyword, setMapKeyword] = useState<mapSearchForm>();
   const mapRef = useRef<kakao.maps.Map>(null);
@@ -40,6 +43,7 @@ export default function Detail() {
     if (bannerRef.current) {
       bannerRef.current.scrollIntoView();
     }
+
   }, [location]);
 
   // map 좌표 저장
@@ -55,7 +59,6 @@ export default function Detail() {
     if (map) map.setBounds(bounds);
   };
 
-  const [info, setInfo] = useState<markerForm>();
   const [markers, setMarkers] = useState<Array<markerForm>>([]);
 
   // 지도 위 검색창의 결과로 지도를 불러옵니다
@@ -104,6 +107,7 @@ export default function Detail() {
       searchInputRef.current.value = '';
     }
   };
+  
 
   return (
     <div className={styles.container}>
@@ -138,7 +142,7 @@ export default function Detail() {
                     {/* 지도 */}
                     <Map center={{ lat: state.tourObj[0].lat, lng: state.tourObj[0].lng }} ref={mapRef} className={styles.map} level={2}>
                       <MapMarker position={{ lat: state.tourObj[0].lat, lng: state.tourObj[0].lng }}>
-                        <div className={styles.map_mark}>{state.tourObj[0].place}</div>
+                        <div className={styles.map_mark} >{state.tourObj[0].place}</div>
                       </MapMarker>
                       {markers.map((marker) => (
                         <MapMarker key={`marker-${marker.content}-${marker.position.lat},${marker.position.lng}`} position={marker.position}>

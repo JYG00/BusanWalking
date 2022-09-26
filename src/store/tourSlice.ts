@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+// 보통이미지, 작은이미지, 장소명, 타이틀, 서브타이틀, 설명, 카테고리, 교통정보, 좌표, 장애인 시설 여부
 export interface tourForm {
   mainImgNormal: string;
   mainImgSmall: string;
@@ -33,7 +34,7 @@ export const tourSlice = createSlice({
   name: 'tour',
   initialState: initalState,
   reducers: {
-    ADD: (state: Array<tourForm>, action: PayloadAction<Array<tourForm>>) => {
+    loadTourData: (state: Array<tourForm>, action: PayloadAction<Array<tourForm>>) => {
       // 값이 두번 들어가는 것을 방지하기 위함
       if (state.length > 1) {
         return;
@@ -42,12 +43,10 @@ export const tourSlice = createSlice({
         state.splice(0, 1);
       }
     },
-    LOAD: (state) => {
-      return state;
-    },
+   
   },
 });
-export const { ADD, LOAD } = tourSlice.actions;
+export const { loadTourData} = tourSlice.actions;
 
 export const selectTour = (state: tourForm) => state;
 

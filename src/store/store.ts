@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import tourReducer from './tourSlice';
-import scrollReducer from './scrollSlice';
-export const store = configureStore({ reducer: { tour: tourReducer, scroll: scrollReducer } });
+import noticeReducer from './noticeSlice';
+export const store = configureStore({ reducer: { tour: tourReducer, notice: noticeReducer } });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;

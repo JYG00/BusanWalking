@@ -1,5 +1,8 @@
 import { MouseEvent, useEffect, useRef, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { Link, useLocation, Outlet, useNavigate } from 'react-router-dom';
+import { noticeForm } from '../../store/noticeSlice';
+import { RootState } from '../../store/store';
 import { ImageCover } from '../Cover/imageCover';
 import styles from './notice.module.css';
 
@@ -15,7 +18,10 @@ export default function Notice() {
   const [pgState, setPgState] = useState<number>(1);
   const contentHeadRef = useRef<null | HTMLParagraphElement[]>([]);
   const pageButtonRef = useRef<null | HTMLParagraphElement[]>([]);
-  const result = ['a', 'b', 'c', 'd', 'e', 'f', 'h', 'i', 'j', 'k'];
+  const resultArr:Array<noticeForm> = useSelector((state:RootState)=>state.notice);
+  const navigate = useNavigate();
+
+  let index = 0;
 
   const changeContent = (event: MouseEvent) => {
     const tableHead = event.currentTarget.getAttribute('id');
@@ -47,6 +53,16 @@ export default function Notice() {
       }
     }
   }, [state]);
+
+  const showDetail = (e:MouseEvent) => {
+    const index= e.currentTarget.id;
+    if(index){
+      
+      navigate('/notice/noticeDetail',{state:{key:state,notice:resultArr[Number(index)]}})
+    }
+    
+  }
+  
 
   return (
     <div className={styles.container}>
@@ -91,59 +107,23 @@ export default function Notice() {
             </tr>
           </thead>
           <tbody>
-            {(() => {
-              let noticeTag = [];
-              for (let index = 0; index < result.length; index++) {
-                noticeTag.push(
-                  <tr key={index + 1}>
-                    <td>{index + 1}</td>
-                    <td>{result[index]}</td>
-                    <td>{result[index]}</td>
-                    <td>{result[index]}</td>
-                  </tr>,
-                );
-              }
-              return noticeTag;
-            })()}
+              {resultArr.map((content)=>(
+                <tr key={index++} onClick={showDetail} id={`${index}`}>
+                    <td>{index+1}</td>
+                    <td>{content.title}</td>
+                    <td>{content.date}</td>
+                    <td>{content.view}</td>
+                </tr>
+              ))}
           </tbody>
         </table>
-      </div>
-      {/* 게시글 등록버튼 */}
+        {/* 게시글 등록버튼 */}
       <div>
-        <Link to="/post">등록하기</Link>
+        <Link to="/notice/post" state={{key:state}}>등록하기</Link>
       </div>
-      {/* 페이지 버튼  */}
-      <div className={styles.page_button}>
-        {(() => {
-          // 한페이지에 9개 콘텐츠
-          const key = result.length;
-          if (key < 10) {
-            return;
-          }
-          const pageNumber: number = Math.ceil(key / 9);
-          let pageTag = [];
-          for (let index: number = 1; index < pageNumber + 1; index++) {
-            pageTag.push(
-              <p
-                key={index}
-                id={String(index)}
-                className={index === 1 ? styles.button_on : styles.button_off}
-                onClick={(event: MouseEvent) => {
-                  setPgState(index);
-                }}
-                ref={(elem: HTMLParagraphElement) => {
-                  if (pageButtonRef.current !== null) {
-                    pageButtonRef.current[index] = elem;
-                  }
-                }}
-              >
-                {index}
-              </p>,
-            );
-          }
-          return pageTag;
-        })()}
       </div>
+      
+      <Outlet/>
     </div>
   );
 }
